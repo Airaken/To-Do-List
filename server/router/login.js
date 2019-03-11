@@ -1,13 +1,13 @@
 const express = require('express');
 const app = express();
-const Usuario = require('../models/user');
+const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 app.post('/login', (req, res) => {
 
     let body = req.body;
-    Usuario.findOne({ email: body.email }, (err, userDB) => {
+    User.findOne({ email: body.email }, (err, userDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
@@ -34,7 +34,7 @@ app.post('/login', (req, res) => {
 
         let token = jwt.sign({
             user: userDB
-        }, process.env.SEED, { expiresIn: '48h' });
+        }, SEED, { expiresIn: '48h' });
 
         res.json({
             ok: true,

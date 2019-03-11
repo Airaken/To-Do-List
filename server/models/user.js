@@ -21,10 +21,6 @@ let userSchema = new Schema({
         type: String,
         required: [true, 'The passwrod is requiered']
     },
-    img: {
-        type: String,
-        required: false
-    },
     role: {
         type: String,
         default: 'USER_ROLE',

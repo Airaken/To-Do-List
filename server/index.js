@@ -1,18 +1,30 @@
-//import packages
+//require('./config/config');
+require('dotenv').config()
+const mongoose = require('mongoose');
 const express = require('express');
-const path = require('path');
-const http = require('http');
-
 const app = express();
-const publicPath = path.resolve(__dirname, '../public');
-const port = process.env.PORT || 3000;
-let server = http.createServer(app);
+const bodyParser = require('body-parser');
+const path = require('path');
 
-//static files
-app.use(express.static(publicPath));
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
 
-//server run
-server.listen(port, (err) => {
-    if (err) throw new Error(err);
-    console.log(`Server run on port ${port}`);
+// parse application/json
+app.use(bodyParser.json());
+
+// files static
+app.use(express.static(path.resolve(__dirname, '../public')));
+
+//Config routers
+app.use(require('./router/index'));
+
+//connect with mongo
+mongoose.connect(URLDB, (err, res) => {
+    if (err) throw err;
+    console.log('Data Base Online');
+});
+
+//listen server
+app.listen(DB_PORT, () => {
+    console.log('Listen on port ', DB_PORT);
 });
