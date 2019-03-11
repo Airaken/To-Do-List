@@ -4,12 +4,16 @@
     "description": "Test for CondorLab",
     "main": "index.js",
     "scripts": {
-        "start": "node index.js",
+        "start": "node server/index.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Luis Puche",
     "license": "ISC",
     "dependencies": {
-        "express": "^4.16.4"
+        "bcrypt": "^3.0.4",
+        "express": "^4.16.4",
+        "jsonwebtoken": "^8.5.0",
+        "mongoose": "^5.4.18",
+        "mongoose-unique-validator": "^2.0.2"
     }
 }
