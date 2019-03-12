@@ -1,8 +1,7 @@
+//requires 
 const jwt = require('jsonwebtoken');
 const User = require('../models/user')
-    //=====
     // validate Token
-    //=====
 let validateToken = (req, res, next) => {
     let token = req.get('token');
     jwt.verify(token, process.env.SEED, (err, decoded) => {
@@ -18,11 +17,7 @@ let validateToken = (req, res, next) => {
         next();
     });
 };
-
-//=====
 // validate AdminRole
-//=====
-
 let validateAdminRole = (req, res, next) => {
     let user = req.user;
     if (user.role === 'ADMIN_ROLE') {
@@ -37,12 +32,7 @@ let validateAdminRole = (req, res, next) => {
         });
     }
 };
-
-
-//=====
-//validate token for image
-//=====
-
+//validate if task exists
 let validateAssignTask = (req, res, next) => {
     let idUser = req.params.idUser;
     let idTask = req.params.idTask;

@@ -1,5 +1,6 @@
+//add env config
 require('./config/config');
-
+//requires 
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
