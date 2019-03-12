@@ -1,5 +1,5 @@
-//require('./config/config');
-require('dotenv').config()
+require('./config/config');
+
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
@@ -19,12 +19,12 @@ app.use(express.static(path.resolve(__dirname, '../public')));
 app.use(require('./router/index'));
 
 //connect with mongo
-mongoose.connect(URLDB, (err, res) => {
+mongoose.connect(process.env.URLDB, { useNewUrlParser: true }, (err, res) => {
     if (err) throw err;
     console.log('Data Base Online');
 });
 
 //listen server
-app.listen(DB_PORT, () => {
-    console.log('Listen on port ', DB_PORT);
+app.listen(process.env.PORT, () => {
+    console.log('Listen on port ', process.env.PORT);
 });

@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
-//=====
-// validate Token
-//=====
+const User = require('../models/user')
+    //=====
+    // validate Token
+    //=====
 let validateToken = (req, res, next) => {
     let token = req.get('token');
     jwt.verify(token, process.env.SEED, (err, decoded) => {
@@ -42,24 +43,40 @@ let validateAdminRole = (req, res, next) => {
 //validate token for image
 //=====
 
-let validateTokenImg = (req, res, next) => {
-    let token = req.query.token;
-    jwt.verify(token, process.env.SEED, (err, decoded) => {
+let validateAssignTask = (req, res, next) => {
+    let idUser = req.params.idUser;
+    let idTask = req.params.idTask;
+    User.findById(idUser).exec((err, userDB) => {
         if (err) {
-            return res.status(401).json({
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+        if (!userDB) {
+            return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'Token not valid'
+                    message: 'Can not find id'
                 }
-            })
+            });
         }
-        req.user = decoded.user;
-        next();
+        if (!userDB.tasks.find(task => task === idTask)) {
+            next();
+            return
+        } else {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'The task already exists'
+                }
+            });
+        }
     });
 }
 
 module.exports = {
     validateToken,
     validateAdminRole,
-    validateTokenImg
+    validateAssignTask
 }
