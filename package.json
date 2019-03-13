@@ -5,7 +5,8 @@
     "main": "index.js",
     "scripts": {
         "start": "node server/index.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "webpack": "webpack --mode development"
     },
     "author": "Luis Puche",
     "license": "ISC",
@@ -15,6 +16,22 @@
         "express": "^4.16.4",
         "jsonwebtoken": "^8.5.0",
         "mongoose": "^5.4.18",
-        "mongoose-unique-validator": "^2.0.2"
+        "mongoose-unique-validator": "^2.0.2",
+        "react": "^16.8.4",
+        "react-dom": "^16.8.4"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.1.0",
+        "@babel/core": "^7.1.0",
+        "@babel/preset-env": "^7.1.0",
+        "@babel/preset-flow": "^7.0.0",
+        "@babel/preset-react": "^7.0.0",
+        "babel-core": "^7.0.0-bridge.0",
+        "babel-eslint": "^9.0.0",
+        "babel-loader": "^8.0.5",
+        "css-loader": "^2.1.1",
+        "style-loader": "^0.23.1",
+        "webpack": "^4.29.6",
+        "webpack-cli": "^3.2.3"
     }
 }

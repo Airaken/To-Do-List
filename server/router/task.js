@@ -2,7 +2,7 @@
 const express = require('express');
 const Task = require('../models/task');
 const app = express()
-const { validateToken, validateAdminRole } = require('../middlewares/authentication');
+const { validateToken } = require('../middlewares/authentication');
 //get to list all the tasks from one position and show a user limit
 app.get('/task', validateToken, (req, res) => {
     let from = req.query.from || 0;

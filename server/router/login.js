@@ -4,6 +4,7 @@ const app = express();
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { validateToken } = require('../middlewares/authentication');
 //post to validate login in web app
 app.post('/login', (req, res) => {
     let body = req.body;
@@ -33,12 +34,29 @@ app.post('/login', (req, res) => {
         let token = jwt.sign({
             user: userDB
         }, process.env.SEED, { expiresIn: '48h' });
-        res.json({
+        process.env.TOKEN = token;
+        return res.json({
             ok: true,
-            user: userDB,
-            token
+            user: userDB
         });
     });
 });
+
+app.get('/login/user', validateToken, (req, res) => {
+    let id = req.user._id;
+    User.findById(id)
+        .exec((err, user) => {
+            if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    err
+                });
+            }
+            res.json({
+                ok: true,
+                user
+            });
+        });
+})
 
 module.exports = app;

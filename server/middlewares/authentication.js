@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user')
     // validate Token
 let validateToken = (req, res, next) => {
-    let token = req.get('token');
+    let token = process.env.TOKEN;
     jwt.verify(token, process.env.SEED, (err, decoded) => {
         if (err) {
             return res.status(401).json({
