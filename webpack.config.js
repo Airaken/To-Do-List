@@ -1,7 +1,7 @@
 module.exports = {
     entry: './server/app/App.js',
     output: {
-        path: __dirname + '/public/js',
+        path: __dirname + '/public/dist',
         filename: 'bundle.js'
     },
     module: {
@@ -12,6 +12,14 @@ module.exports = {
         }, {
             test: /\.css$/,
             use: ['style-loader', 'css-loader'],
+        }, {
+            test: /\.(?:png|jpg|gif|svg)$/i,
+            use: [{
+                loader: 'file-loader',
+                options: {
+                    name: 'assets/[hash].[ext]',
+                }
+            }, ]
         }]
     }
 }

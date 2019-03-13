@@ -59,4 +59,12 @@ app.get('/login/user', validateToken, (req, res) => {
         });
 })
 
+app.get('/logout', (req, res) => {
+    process.env.TOKEN = '';
+    res.json({
+        ok: true,
+        message: 'logout successful'
+    });
+})
+
 module.exports = app;
