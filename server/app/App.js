@@ -11,7 +11,8 @@ class App extends Component{
         super();       
         this.state = {
             result:'reload',
-            route:'board'
+            route:'board',
+            value: ''
         }
         this.isLogin = this.isLogin.bind(this);   
         this.isLogin();
@@ -21,29 +22,32 @@ class App extends Component{
             .then(res => res.json().then(data => this.setState({ result: data.ok })))
             .catch(res => res.json().then(data => this.setState({ result: data.ok })))
     }
-    logInOut(result){
-        this.setState({result});
-    }
     routes(route){
         this.setState({route});
     }
+    logInOut(result){
+        this.setState({result});
+    }
+    inputSearch(value){
+        this.setState({value});
+    }
     render(){
-        var board = '', login = '', loading='', header = '', userList ='';
+        let board = '', login = '', loading='', header = '', userList ='';
         // switch this.state.result for render components
         switch (this.state.result) {
             case true:
-                header = <Header routes={this.routes.bind(this)} callback={this.logInOut.bind(this)} />
+                header = <Header routes={this.routes.bind(this)} logInOut={this.logInOut.bind(this)} inputSearch={this.inputSearch.bind(this)} />
                 switch (this.state.route) {
                     case 'board':
-                        board = <Board />
+                        board = <Board value={this.state.value} />
                         break;
-                    case 'userList':
+                    case 'users':
                         userList = <Users/>
                         break
                 }
                 break;
             case false:
-                login = <Login callback={this.logInOut.bind(this)} />
+                login = <Login logInOut={this.logInOut.bind(this)} />
                 break;
             case 'reload':
                 loading = <Loading />

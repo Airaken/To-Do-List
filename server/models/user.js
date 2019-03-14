@@ -29,10 +29,6 @@ let userSchema = new Schema({
     state: {
         type: Boolean,
         default: true
-    },
-    tasks: {
-        type: Array,
-        ref: 'Task'
     }
 });
 

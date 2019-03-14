@@ -7,6 +7,7 @@ class Board extends Component{
             tasks:[]
         }
         this.renderTask = this.renderTask.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
     }
     renderTask(task){
         return(
@@ -14,17 +15,27 @@ class Board extends Component{
         );
     }
     componentDidMount(){
-        this.fetchTasks();
+        this.fetchsTasks();
     }
-    fetchTasks() {
-        console.log('in to the renderTask');
-        fetch('/task')
-            .then(res => res.json())
-            .then(data => {
-                this.setState({tasks:data.tasks});
-                console.log(this.state);
-            })
-            .catch(err => console.log(err));
+    fetchsTasks() {
+        console.log(this.props.value);
+        if (this.props.value) {
+            console.log('in /task/search/');
+            fetch('/task/search/' + this.props.value)
+                .then(res => res.json())
+                .then(data => {
+                    this.setState({ tasks: data.tasks });
+                })
+                .catch(err => console.log(err));
+        } else {
+            console.log('in /task');
+            fetch('/task')
+                .then(res => res.json())
+                .then(data => {
+                    this.setState({ tasks: data.tasks });
+                })
+                .catch(err => console.log(err));
+        }
     }
     render() {
         return (

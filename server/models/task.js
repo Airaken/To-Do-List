@@ -23,6 +23,10 @@ let taskSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
+    },
+    users: {
+        type: Array,
+        ref: 'User'
     }
 });
 

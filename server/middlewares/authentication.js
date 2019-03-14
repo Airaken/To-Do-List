@@ -1,6 +1,6 @@
 //requires 
 const jwt = require('jsonwebtoken');
-const User = require('../models/user')
+const Task = require('../models/task')
     // validate Token
 let validateToken = (req, res, next) => {
     let token = process.env.TOKEN;
@@ -32,18 +32,18 @@ let validateAdminRole = (req, res, next) => {
         });
     }
 };
-//validate if task exists
+//validate if task assigmed
 let validateAssignTask = (req, res, next) => {
     let idUser = req.params.idUser;
     let idTask = req.params.idTask;
-    User.findById(idUser).exec((err, userDB) => {
+    Task.findById(idTask).exec((err, taskDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
                 err
             });
         }
-        if (!userDB) {
+        if (!taskDB) {
             return res.status(400).json({
                 ok: false,
                 err: {
@@ -51,14 +51,14 @@ let validateAssignTask = (req, res, next) => {
                 }
             });
         }
-        if (!userDB.tasks.find(task => task === idTask)) {
+        if (!taskDB.users.find(user => user === idUser)) {
             next();
             return
         } else {
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'The task already exists'
+                    message: 'The task already assign to user'
                 }
             });
         }
