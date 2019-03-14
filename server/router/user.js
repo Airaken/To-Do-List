@@ -45,7 +45,7 @@ app.get('/user/:id', (req, res) => {
         });
 });
 //post to create a new user, the roll will be USER_ROLE for default
-app.post('/user', [validateToken, validateAdminRole], function(req, res) {
+app.post('/user', function(req, res) {
     let body = req.body;
     let user = new User({
         name: body.name,

@@ -9,6 +9,7 @@ class Login extends Component {
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.signin = this.signin.bind(this);
     }
     handleSubmit(e){
         e.preventDefault();
@@ -30,6 +31,9 @@ class Login extends Component {
             [name]:value
         })
     }
+    signin(){
+        this.props.signin('signin')
+    }
     render() {
         return (
             //code https://startbootstrap.com/snippets/login/
@@ -38,18 +42,19 @@ class Login extends Component {
                     <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
                         <div className="card card-signin my-5">
                             <div className="card-body">
-                                <h5 className="card-title text-center">Sign In</h5>
+                                <h5 className="card-title text-center">Login</h5>
                                 <form onSubmit={this.handleSubmit} className="form-signin">
                                     <div className="form-label-group">
                                         <label id="inputEmail" > Email address </label>
-                                        <input name="email" type="email" id="inputEmail" className="form-control" placeholder="Email address" onChange={this.handleInputChange} required autoFocus />
+                                        <input name="email" type="email" id="inputEmail" className="form-control" onChange={this.handleInputChange} required autoFocus />
                                     </div>
                                     <div className="form-label-group">
                                         <label id="inputPassword" > Password </label>
-                                        <input name="password" type="password" id="inputPassword" className="form-control" placeholder="Password" onChange={this.handleInputChange} required />
+                                        <input name="password" type="password" id="inputPassword" className="form-control" onChange={this.handleInputChange} required />
                                     </div>
-                                    <button className="btn btn-lg btn-primary btn-block text-uppercase" type="submit"> Sign in </button>
+                                    <button className="btn btn-lg btn-primary btn-block text-uppercase" type="submit"> Login </button>
                                 </form>
+                                <a className="text-center" onClick={this.signin}>Sign In</a>
                             </div>
                         </div>
                     </div>

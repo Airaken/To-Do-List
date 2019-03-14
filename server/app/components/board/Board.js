@@ -41,9 +41,19 @@ class Board extends Component{
         return (
             <div className="container">
                 <div className="row rounded-bottom bg-secondary">
-                    <form className="form-inline p-2 my-2 my-lg-0">
-                        <input className="form-control mr-sm-2" onChange={this.handleChange} type="search" placeholder="Search task" aria-label="Search" />
-                    </form>
+                    <div className="col-5">
+                        <div class="input-group">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text" id="basic-addon1"><ion-icon name="search"></ion-icon></span>
+                            </div>
+                            <input className="form-control mr-sm-2" onChange={this.handleChange} type="search" placeholder="Search task" aria-label="Search" />
+                        </div>
+                    </div>
+                    <div className="col-12">
+                        <form className="form-inline p-2 my-2 my-lg-0">
+                            <input className="form-control mr-sm-2" onChange={this.handleChange} type="search" placeholder="Search task" aria-label="Search" />
+                        </form>
+                    </div>
                 </div>
                 <div className="row m2">
                     {this.state.tasks.map(task => this.renderTask(task))}

@@ -3,6 +3,7 @@ import Login from './Login';
 import Main from './Main'
 import Loading from './Loading';
 import {render} from 'react-dom';
+import Signin from './Signin';
 
 class App extends Component{
     constructor(){
@@ -21,6 +22,9 @@ class App extends Component{
     logInOut(result){
         this.setState({result});
     }
+    signin(result){
+        this.setState({result});
+    }
     render(){
         let render=<Login logInOut={this.logInOut.bind(this)} />;
         // switch this.state.result for render components
@@ -29,13 +33,13 @@ class App extends Component{
                 render = <Main logInOut={this.logInOut.bind(this)} />
                 break;
             case false:
-                render = <Login logInOut={this.logInOut.bind(this)} />
+                render = <Login signin={this.signin.bind(this)} logInOut={this.logInOut.bind(this)} />
                 break;
-            case 'reload':
-                render = <Loading />
+            case 'signin':
+                render = <Signin logInOut={this.logInOut.bind(this)} />
                 break
             default:
-                render = <Login logInOut={this.logInOut.bind(this)} />
+                render = <Loading />
                 break;
         }
         return (
