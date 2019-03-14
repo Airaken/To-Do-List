@@ -8,36 +8,22 @@ class Header extends Component{
         }
         this.handleClickLogout = this.handleClickLogout.bind(this);
         this.handleClick = this.handleClick.bind(this);
-        this.handleChange = this.handleChange.bind(this);
     }
     // this function sends the route depending on where press
     handleClick(e){
-        let route = e.target.id;
-        this.props.routes(route);
-        this.setState({route});
+        this.props.routes(e.target.id)     
     }
     // function to logout, meke a get and change Token on server
     handleClickLogout(){
         fetch('/logout')
         .then(res => res.json())
-        .then(data => this.props.logInOut(!data.ok))
+        .then(data => {
+            let result = data.ok
+            this.props.logInOut(!result)
+        })
         .catch(err => console.log(err));
     }
-    handleChange(e){
-        this.props.inputSearch(e.target.value);
-    }
-    renderSearch(){
-        return(
-            <form className="form-inline my-2 my-lg-0">
-                <input className="form-control mr-sm-2" onChange={this.handleChange} type="search" placeholder="Search task" aria-label="Search" />
-            </form>
-        )
-    }
     render(){
-        let search = '';
-        if (this.state.route === 'board') {
-            search = this.renderSearch();
-        }
         return (
             <header className="">
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -57,7 +43,6 @@ class Header extends Component{
                                 <button id="logout" type="button" onClick={this.handleClickLogout} className="btn btn-danger">Logout</button>
                             </li>
                         </ul>
-                        {search}
                     </div>
                 </nav>
             </header>
