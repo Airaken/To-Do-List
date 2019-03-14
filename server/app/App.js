@@ -39,7 +39,7 @@ class App extends Component{
                 render = <Signin logInOut={this.logInOut.bind(this)} />
                 break
             default:
-                render = <Loading />
+            render = <Login signin={this.signin.bind(this)} logInOut={this.logInOut.bind(this)} />
                 break;
         }
         return (

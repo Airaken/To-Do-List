@@ -42,7 +42,7 @@ class Board extends Component{
             <div className="container">
                 <div className="row rounded-bottom bg-secondary">
                     <div className="col-5">
-                        <div class="input-group">
+                        <div className="input-group">
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1"><ion-icon name="search"></ion-icon></span>
                             </div>
