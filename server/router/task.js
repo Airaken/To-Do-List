@@ -118,7 +118,7 @@ app.put('/task/changeStatus/:id&:status', validateToken, (req, res) => {
     });
 });
 //put for assign taks to user, need user id and task id 
-app.put('/task/assignTask/:idUser&:idTask', validateAssignTask, (req, res) => {
+app.put('/task/test/:idUser&:idTask', validateAssignTask, (req, res) => {
     let idUser = req.params.idUser;
     let idTask = req.params.idTask;
     Task.findById(idTask).exec((err, taskDB) => {
