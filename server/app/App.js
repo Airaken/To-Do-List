@@ -4,7 +4,6 @@ import Main from './Main'
 import Loading from './Loading';
 import {render} from 'react-dom';
 import Signin from './Signin';
-
 class App extends Component{
     constructor(){
         super();       
@@ -38,8 +37,11 @@ class App extends Component{
             case 'signin':
                 render = <Signin logInOut={this.logInOut.bind(this)} />
                 break
+            case 'reload':
+                render = <Loading />
+                break
             default:
-            render = <Login signin={this.signin.bind(this)} logInOut={this.logInOut.bind(this)} />
+                render = <Login signin={this.signin.bind(this)} logInOut={this.logInOut.bind(this)} />
                 break;
         }
         return (

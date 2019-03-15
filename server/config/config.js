@@ -3,8 +3,7 @@ process.env.PORT = process.env.PORT || 3000;
 // Data Base
 process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 
-console.log(process.env.NODE_ENV);
-
+// chois 
 let urlDB;
 if (process.env.NODE_ENV === 'dev') {
     urlDB = 'mongodb://localhost:27017/test-Condor'

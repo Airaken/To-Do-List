@@ -12,6 +12,7 @@ app.get('/task', (req, res) => {
     Task.find({}, 'name description status user users')
         .skip(from)
         .limit(limit)
+        .populate('user', 'name email')
         .exec((err, tasks) => {
             if (err) {
                 return res.status(400).json({
@@ -47,7 +48,7 @@ app.get('/task/search/:value', (req, res) => {
     let value = req.params.value;
     let regex = new RegExp(value, 'i');
     Task.find({ name: regex })
-        //.populate('name', 'description')
+        .populate('user', 'name email')
         .exec((err, tasks) => {
             if (err) {
                 return res.status(400).json({

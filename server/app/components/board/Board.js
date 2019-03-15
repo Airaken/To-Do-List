@@ -7,37 +7,34 @@ class Board extends Component{
             tasks:[]
         }
         this.renderTask = this.renderTask.bind(this);
-        this.componentDidMount = this.componentDidMount.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+    }
+    componentDidMount(){
+        this.fetchsTasks();
     }
     renderTask(task){
         return(
             <Task task={task} key={task._id}/>
         );
     }
-    componentDidMount(){
-        this.fetchsTasks();
-    }
-    fetchsTasks() {
-        console.log(this.props.value);
-        if (this.props.value) {
-            console.log('in /task/search/');
-            fetch('/task/search/' + this.props.value)
+    fetchsTasks(value) {
+        console.log(value);
+        if (value) {
+            fetch('/task/search/' + value)
                 .then(res => res.json())
-                .then(data => {
-                    this.setState({ tasks: data.tasks });
-                })
+                .then(data => this.setState({ tasks: data.tasks }))
                 .catch(err => console.log(err));
         } else {
-            console.log('in /task');
             fetch('/task')
                 .then(res => res.json())
-                .then(data => {
-                    this.setState({ tasks: data.tasks });
-                })
+                .then(data => this.setState({ tasks: data.tasks }))
                 .catch(err => console.log(err));
         }
     }
-    render() {
+    handleChange(e){
+        this.fetchsTasks(e.target.value);
+    }
+    render() {      
         return (
             <div className="container">
                 <div className="row rounded-bottom bg-secondary">
@@ -51,7 +48,7 @@ class Board extends Component{
                     </div>
                     <div className="col-12">
                         <form className="form-inline p-2 my-2 my-lg-0">
-                            <input className="form-control mr-sm-2" onChange={this.handleChange} type="search" placeholder="Search task" aria-label="Search" />
+                            <input className="form-control mr-sm-2" onChange={this.handleChange} type="text" placeholder="Search task"  />
                         </form>
                     </div>
                 </div>
