@@ -6,9 +6,10 @@ class Task extends Component{
          // usersSelect validates if the list of users of task cards is selected
         this.state = {  
             usersSelect:false,
-            users:[]
+            user:'',
+            users:[],
+            listUsers:[]
         }
-        this.renderBodyCard = this.renderBodyCard.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }  
     componentDidMount(){
@@ -18,12 +19,13 @@ class Task extends Component{
     fetchUsers() {
         fetch('/user')
             .then(res => res.json())
-            .then(data => {
-                let dataUsers = data.users;
+            .then(data => {        
+                let listUsers = data.users;
+                this.setState({listUsers})   
                 let taskUsers = this.props.task.users;
                 let users = []
                 taskUsers.map(taskUser => {
-                    dataUsers.map(user => {
+                    listUsers.map(user => {
                         if (JSON.stringify(user._id) === JSON.stringify(taskUser)) {
                             users.push(user);
                         }
@@ -47,28 +49,19 @@ class Task extends Component{
             </div>
         )
     }
-    renderBodyCard(){
-        let users = this.state.users.map(user => this.renderUser(user) );
-        switch (this.state.usersSelect) {
-            case false:
-            return(
-                <div className="card-body">
-                    <h5 className="card-title">{this.props.task.name}</h5>
-                     <p className="card-text mb-3">{this.props.task.description}</p>             
-                    <a className="btn btn-primary"
-                        id="edit" onClick={this.handleClick}>Edit</a>
-                </div>
-            );
-            case true:
-            return(
-                <div className="card-body">
-                    <div>
-                        <span className="badge badge-primary" type="button">Assign User</span>
+    listUser(user) {
+        return (
+            <div key={user._id} className=" list-group-item list-group-item-action list-group-item-light" >
+                <div className="row">
+                    <div className="col-9">
+                        <span>{user.name}</span>
                     </div>
-                    {users}
+                    <div className="col-3">
+                        <span className="badge badge-danger" type="button"> Assign</span>
+                    </div>
                 </div>
-            );
-        }
+            </div>
+        )
     }
     // this function change usersSelect depending on which link is selected
     handleClick(e) {
@@ -85,35 +78,60 @@ class Task extends Component{
                 break;
             case 'edit':
                 break;
+            case 'assign':
+                fetch('/task/assignTask/' + this.props.task._id + "&" + this.state.user, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                })
+                    .then(res => res.json())
+                    .then(data => console.log(data))
+                    .catch(err => console.log(err));
+                break;
         }
     }
-    render(){
-        const bodyCard = this.renderBodyCard();
-        let selectTask = 'active',selectUsers='';
-        if (!this.state.usersSelect) {
-            selectTask = 'active';
-        }else{
-            selectUsers = 'active';
-        }
+    render() {
+        let users = this.state.users.map(user => this.renderUser(user) );
+        let listUsers = this.state.listUsers.map(user => this.listUser(user) );
+        let id = `id-${this.props.task._id}`;
         return (
-            <div className="col-lg-4 col-md-6 col-sm-12 col-12 mt-3">
+            <div className="col-lg-4 col-md-6 col-sm-12 col-12 mb-3 mt-3">
                 <div className="card" key={this.props.task._id}>
-                    <div className="card-header">
-                        <ul className="nav nav-tabs card-header-tabs">
-                            <li className="nav-item">
-                                <a className={`nav-link ${selectTask}`}
-                                    id="task" onClick={this.handleClick}>Task</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className={`nav-link ${selectUsers}`}
-                                    id="users" onClick={this.handleClick}>Users</a>
-                            </li>
-                        </ul>
+                    <ul className="nav nav-tabs" id="myTab" role="tablist">
+                        <li className="nav-item">
+                            <a className="nav-link active" id="task-tab" data-toggle="tab" href={`#task-${id}`} role="tab" aria-controls="task" aria-selected="true">Task</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" id="users-tab" data-toggle="tab" href={`#users-${id}`} role="tab" aria-controls="users" aria-selected="false">Users</a>
+                        </li>
+                    </ul>
+                    <div className="tab-content" id="myTabContent">
+                        <div className="tab-pane fade show active" id={`task-${id}`} role="tabpanel" aria-labelledby="task-tab">
+                            <div className="card-body">
+                                <h5 className="card-title">{this.props.task.name}</h5>
+                                <p className="card-text mb-3">{this.props.task.description}</p>
+                                <span type="button" className="badge badge-primary"
+                                    id="edit" onClick={this.handleClick}>Edit</span>
+                            </div>
+                        </div>
+                        <div className="tab-pane fade" id={`users-${id}`} role="tabpanel" aria-labelledby="users-tab">
+                            <div className="card-body">
+                                <div>
+                                    <span id="assign"
+                                        data-toggle="collapse" data-target={"#" + id}
+                                        className="badge badge-primary" type="button">Assign User</span>
+                                </div>
+                                <div id={id} className="collapse">
+                                    {listUsers}
+                                </div>
+                                {users}
+                            </div>
+                        </div>
                     </div>
-                    {bodyCard}
                 </div>
             </div>
-            
+
         )
     }
 }

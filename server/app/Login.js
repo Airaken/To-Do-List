@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './login.css';
+
 class Login extends Component {
     constructor() {
         super();
@@ -46,15 +46,17 @@ class Login extends Component {
                                 <form onSubmit={this.handleSubmit} className="form-signin">
                                     <div className="form-label-group">
                                         <label id="inputEmail" > Email address </label>
-                                        <input name="email" type="email" id="inputEmail" className="form-control" onChange={this.handleInputChange} required autoFocus />
+                                        <input name="email" type="email" id="inputEmail" className="m-1 form-control" onChange={this.handleInputChange} required autoFocus />
                                     </div>
                                     <div className="form-label-group">
                                         <label id="inputPassword" > Password </label>
-                                        <input name="password" type="password" id="inputPassword" className="form-control" onChange={this.handleInputChange} required />
+                                        <input name="password" type="password" id="inputPassword" className="m-1  form-control" onChange={this.handleInputChange} required />
                                     </div>
-                                    <button className="btn btn-lg btn-primary btn-block text-uppercase" type="submit"> Login </button>
+                                    <button className="m-1  btn btn-lg btn-primary btn-block text-uppercase" type="submit"> Login </button>
                                 </form>
-                                <a className="text-center" onClick={this.signin}>Sign In</a>
+                                <div className="d-flex justify-content-center p-2">
+                                    <a href="#" className="badge badge-light" onClick={this.signin}>Sign In</a>
+                                </div>
                             </div>
                         </div>
                     </div>

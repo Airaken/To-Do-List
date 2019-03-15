@@ -11,6 +11,7 @@ class Signin extends Component {
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.back = this.back.bind(this);
     }
     handleSubmit(e){
         e.preventDefault();
@@ -18,8 +19,6 @@ class Signin extends Component {
             alert('passwords does not match');
         }else{
             const data = new URLSearchParams("email="+this.state.email+"&password="+this.state.password+"&name="+this.state.name+"&role="+this.state.role);
-            console.log(data);
-            console.log(this.state);
             fetch('/user', {
                 method: 'POST',
                 body: data,
@@ -38,6 +37,9 @@ class Signin extends Component {
             [name]:value
         })
     }
+    back(){
+        this.props.logInOut(false)
+    }
     render() {
         return (
             <div className="container">
@@ -47,28 +49,31 @@ class Signin extends Component {
                             <div className="card-body">
                                 <h5 className="card-title text-center">Login</h5>
                                 <form onSubmit={this.handleSubmit} className="form-signin">
-                                    <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
+                                    <h1 className="p-1 h3 mb-3 font-weight-normal">Please sign in</h1>
                                     <div className="form-label-group">
                                         <label className="sr-only">Email address</label>
-                                        <input name="email" onChange={this.handleInputChange} type="email" id="email" className="form-control" placeholder="Email address" required="" autoFocus="" />
+                                        <input name="email" onChange={this.handleInputChange} type="email" id="email" className="m-1 form-control" placeholder="Email address" required="" autoFocus="" />
                                     </div>
                                     <div className="form-label-group">
                                         <label className="sr-only">Password</label>
-                                        <input name="password" onChange={this.handleInputChange} type="password" id="password" className="form-control" placeholder="Password" required="" />
+                                        <input name="password" onChange={this.handleInputChange} type="password" id="password" className="m-1 form-control" placeholder="Password" required="" />
                                     </div>
                                     <div className="form-label-group">
                                         <label className="sr-only">Re-Password</label>
-                                        <input name="ppassword" onChange={this.handleInputChange} type="password" id="ppassword" className="form-control" placeholder="Re-Password" required="" />
+                                        <input name="ppassword" onChange={this.handleInputChange} type="password" id="ppassword" className="m-1 form-control" placeholder="Re-Password" required="" />
                                     </div>
                                     <div className="form-label-group">
                                         <label className="sr-only">Name</label>
-                                        <input name="name" onChange={this.handleInputChange} type="test" id="name" className="form-control" placeholder="Name" required="" />
+                                        <input name="name" onChange={this.handleInputChange} type="test" id="name" className="m-1 form-control" placeholder="Name" required="" />
                                     </div>
                                     <div className="form-label-group">
                                         <label className="sr-only">Role</label>
-                                        <input name="role" onChange={this.handleInputChange} type="test" id="role" className="form-control" disabled placeholder="Role" required="" value="USER_ROLE" />
+                                        <input name="role" onChange={this.handleInputChange} type="test" id="role" className="m-1 form-control" disabled placeholder="Role" required="" value="USER_ROLE" />
                                     </div>
-                                    <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                                    <button className="m-1 btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                                    <div className="d-flex justify-content-center p-2">
+                                        <a href="#" className="badge badge-light" onClick={this.back}>Back</a>
+                                    </div>
                                 </form>
                             </div>
                         </div>

@@ -33,16 +33,11 @@ class Header extends Component{
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav mr-auto">
-                            <li className="nav-item active">
-                                <button id="newTask" type="button" onClick={this.handleClick} className="btn btn-dark">New Task</button>
-                            </li>
-                            <li className="nav-item active">
-                                <button id="users" type="button" onClick={this.handleClick} className="btn btn-dark">Users</button>
-                            </li>
-                            <li className="nav-item danger">
-                                <button id="logout" type="button" onClick={this.handleClickLogout} className="btn btn-danger">Logout</button>
+                            <li className="p-1 nav-item active">
+                                <button id="users" type="button" onClick={this.handleClick} className="btn btn-dark">List Users</button>
                             </li>
                         </ul>
+                        <button id="logout" type="button" onClick={this.handleClickLogout} className="btn btn-danger">Logout</button>
                     </div>
                 </nav>
             </header>
