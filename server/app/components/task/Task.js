@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Task.css'
-import Modal from '../users/Modal';
+import Modal from './Modal';
 class Task extends Component{
     constructor(){
         super();
@@ -29,23 +29,9 @@ class Task extends Component{
             });
         }
     }
-    renderUser(user) {
-        return (
-            <div key={user._id} className=" list-group-item list-group-item-action list-group-item-light" >
-                <div className="row">
-                    <div className="col-9">
-                        <span>{user.name}</span>
-                    </div>
-                    <div className="col-3">
-                        <span className="badge badge-danger" type="button"> Delete</span>
-                    </div>
-                </div>
-            </div>
-        )
-    }
     // this function change usersSelect depending on which link is selected
     handleClick(e) {
-        switch (e.target.id) {
+        switch (e.target.name) {
             case 'assign':
                 fetch('/user')
                     .then(res => res.json())
@@ -54,7 +40,23 @@ class Task extends Component{
                         this.state.usersInTask.map(userTask =>{
                             usersOutTask = usersOutTask.filter(user => user._id !== userTask._id);
                         });
-                        this.setState({usersOutTask});                   
+                        this.setState({ usersOutTask });
+                    })
+                    .catch(err => console.log(err));
+                break;
+            case 'delete':
+                fetch('/task/removeTask/' + e.target.id + '&' + this.props.task._id, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data.message);
+                        console.log(this.state.usersInTask);
+                        let usersInTask = this.state.usersInTask.filter(userId => userId===data.userDelete);
+                        this.setState({ usersInTask });
                     })
                     .catch(err => console.log(err));
                 break;
@@ -65,8 +67,25 @@ class Task extends Component{
                 break;
         }
     }
-    returnRefresh(){
-        this.fetchUsers();
+    returnRefresh(usersInTask) {
+        // usersInTask.push(...this.state.usersInTask);
+        // this.setState({ usersInTask })
+    }
+    renderUser(user) {
+        return (
+            <div key={user._id} className=" list-group-item list-group-item-action list-group-item-light" >
+                <div className="row">
+                    <div className="col-8">
+                        <span>{user.name}</span>
+                    </div>
+                    <div className="col-4">
+                        <div>
+                            <button name="delete" id={user._id} onClick={this.handleClick} className="badge badge-danger pl-2" type="button"> Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
     }
     render() {
         let users = this.state.usersInTask.map(user => this.renderUser(user) );
@@ -88,17 +107,15 @@ class Task extends Component{
                             <div className="card-body">
                                 <h5 className="card-title">{task.name}</h5>
                                 <p className="card-text mb-3">{task.description}</p>
-                                <span type="button" className="badge badge-primary"
-                                    id="edit" onClick={this.handleClick}>Edit</span>
+                                    <button name="edit" onClick={this.handleClick} type="button" className="badge badge-primary">Edit</button>
+                                
                             </div>
                         </div>
                         <div className="tab-pane fade" id={`users-${id}`} role="tabpanel" aria-labelledby="users-tab">
                             <div className="card-body">
-                                <div>
-                                    <span id="assign" onClick={this.handleClick}
-                                        data-toggle="modal" data-target={"#" + id}
-                                        className="badge badge-primary" type="button">Assign User</span>
-                                </div>
+                                <button name="assign" onClick={this.handleClick}
+                                    data-toggle="modal" data-target={"#" + id}
+                                    className="badge badge-primary" type="button">Assign User</button>
                                 <Modal returnRefresh={this.returnRefresh} key={task._id} task={task} users={this.state.usersOutTask} />
                                 {users}
                             </div>

@@ -9,8 +9,11 @@ class Modal extends Component{
         this.handleClick = this.handleClick.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);      
     }
+    componentDidMount(){
+        this.props.returnRefresh(this.state.idUsersAssign);
+    }
     pushUserToTask(userId, taskIs) {
-        fetch('/task/test/' + userId + '&' + taskIs, {
+        fetch('/task/assignTask/' + userId + '&' + taskIs, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -19,7 +22,9 @@ class Modal extends Component{
             .then(res => res.json())
             .then(data => {
                 console.log(data.message);
-                this.props.returnRefresh();
+                let idUsersAssign = this.state.idUsersAssign;
+                idUsersAssign.push(data.userAdd)
+                this.setState({idUsersAssign});
             })
             .catch(err => console.log(err));
     }
@@ -47,6 +52,9 @@ class Modal extends Component{
     }
     render(){
         let users = this.props.users.map(user => this.listUser(user) );
+        if(users.length===0){
+            users = 'there are no users to show'
+        }
         let task = this.props.task
         return(            
             <div key={task._id} className="modal fade" id={`id-${task._id}`} tabIndex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
