@@ -44,8 +44,8 @@ class Task extends Component{
                     })
                     .catch(err => console.log(err));
                 break;
-            case 'delete':
-                fetch('/task/removeTask/' + e.target.id + '&' + this.props.task._id, {
+            case 'remove':
+                fetch('/task/removeUser/' + e.target.id + '&' + this.props.task._id, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -55,7 +55,7 @@ class Task extends Component{
                     .then(data => {
                         console.log(data.message);
                         console.log(this.state.usersInTask);
-                        let usersInTask = this.state.usersInTask.filter(userId => userId===data.userDelete);
+                        let usersInTask = this.state.usersInTask.filter(userId => userId===data.userRemove);
                         this.setState({ usersInTask });
                     })
                     .catch(err => console.log(err));
@@ -80,7 +80,7 @@ class Task extends Component{
                     </div>
                     <div className="col-4">
                         <div>
-                            <button name="delete" id={user._id} onClick={this.handleClick} className="badge badge-danger pl-2" type="button"> Delete</button>
+                            <button name="remove" id={user._id} onClick={this.handleClick} className="badge badge-danger pl-2" type="button"> Remove</button>
                         </div>
                     </div>
                 </div>

@@ -153,7 +153,7 @@ app.put('/task/assignTask/:idUser&:idTask', validateAssignTask, (req, res) => {
     });
 });
 //put for remove taks to user, need user id and task id 
-app.put('/task/removeTask/:idUser&:idTask', (req, res) => {
+app.put('/task/removeUser/:idUser&:idTask', (req, res) => {
     let idUser = req.params.idUser;
     let idTask = req.params.idTask;
     Task.findById(idTask).exec((err, taskDB) => {
@@ -178,7 +178,7 @@ app.put('/task/removeTask/:idUser&:idTask', (req, res) => {
                 message: 'Task does not assigned'
             });
         }
-        Task.findByIdAndUpdate(idTask, { users: upTaskDB }, { new: true, runValidator: true }, (err, userDelete) => {
+        Task.findByIdAndUpdate(idTask, { users: upTaskDB }, { new: true, runValidator: true }, (err, userRemove) => {
             if (err) {
                 return res.status(500).json({
                     ok: false,
@@ -189,7 +189,7 @@ app.put('/task/removeTask/:idUser&:idTask', (req, res) => {
             res.json({
                 ok: true,
                 message: 'Task removed',
-                userDelete
+                userRemove
             })
         });
     });
