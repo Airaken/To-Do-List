@@ -26,7 +26,7 @@ let taskSchema = new Schema({
     },
     users: {
         type: Array,
-        ref: 'User'
+        required: false
     }
 });
 

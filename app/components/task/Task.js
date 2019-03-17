@@ -5,7 +5,7 @@ class Task extends Component{
     constructor(){
         super();
          // usersSelect validates if the list of users of task cards is selected
-        this.state = {  
+        this.state = { 
             usersInTask:[],
             usersOutTask:[]
         }
@@ -21,6 +21,7 @@ class Task extends Component{
                 fetch('/user/' + userId)
                     .then(res => res.json())
                     .then(data => {
+                        //add user to list of users assigned in task
                         let usersInTask = this.state.usersInTask;
                         usersInTask.push(data.user);
                         this.setState({usersInTask});
@@ -28,19 +29,38 @@ class Task extends Component{
                     .catch(err => console.log(err));
             });
         }
+        fetch('/user')
+            .then(res => res.json())
+            .then(data => {
+                //add user to list of users not assigned in thask-
+                let users = data.user;
+                let usersOutTask = data.users;
+                this.state.usersInTask.map(userTask => {
+                    usersOutTask = usersOutTask.filter(user => user._id !== userTask._id);
+                });
+                this.setState({users});
+                this.setState({ usersOutTask });
+            })
+            .catch(err => console.log(err));
     }
     // this function change usersSelect depending on which link is selected
     handleClick(e) {
         switch (e.target.name) {
             case 'assign':
-                fetch('/user')
+                fetch('/task/assignUser/' + e.target.id + '&' + this.props.task._id, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                })
                     .then(res => res.json())
                     .then(data => {
-                        let usersOutTask = data.users;
-                        this.state.usersInTask.map(userTask =>{
-                            usersOutTask = usersOutTask.filter(user => user._id !== userTask._id);
-                        });
-                        this.setState({ usersOutTask });
+                        //add user to list of users assigned
+                        let usersOutTask = this.state.usersOutTask.filter(userId => userId._id !== data.user._id);
+                        let usersInTask = this.state.usersInTask;
+                        usersInTask.push(data.user)
+                        this.setState({usersInTask});
+                        this.setState({usersOutTask});
                     })
                     .catch(err => console.log(err));
                 break;
@@ -53,10 +73,11 @@ class Task extends Component{
                 })
                     .then(res => res.json())
                     .then(data => {
-                        console.log(data.userRemove);
-                        console.log(this.state.usersInTask);
-                        let usersInTask = this.state.usersInTask.filter(userId => userId._id!==data.userRemove);
-                        console.log(usersInTask);
+                        // remove users to list of users asssigned in task
+                        let usersInTask = this.state.usersInTask.filter(userId => userId._id !== data.user._id);
+                        let usersOutTask = this.state.usersOutTask;
+                        usersOutTask.push(data.user)
+                        this.setState({usersOutTask});
                         this.setState({ usersInTask });
                     })
                     .catch(err => console.log(err));
@@ -67,10 +88,6 @@ class Task extends Component{
             default:
                 break;
         }
-    }
-    returnRefresh(usersInTask) {
-        // usersInTask.push(...this.state.usersInTask);
-        // this.setState({ usersInTask })
     }
     // function to render each user assigned to the task
     renderUser(user) {
@@ -89,9 +106,25 @@ class Task extends Component{
             </div>
         )
     }
+    listUser(user) {
+        return (
+            <div className="input-group mb-3" key={user._id}>
+                <input value={user.name} disabled type="text" className="form-control" aria-label="Text input with checkbox" />
+                <div className="input-group-prepend">
+                    <div>
+                        <button name="assign" id={user._id} onClick={this.handleClick} className="badge badge-primary pl-2" type="button"> Assign</button>
+                    </div>
+                </div>
+            </div>
+        )
+    }
     // main render task
     render() {
-        let users = this.state.usersInTask.map(user => this.renderUser(user) );
+        let usersInTask = this.state.usersInTask.map(user => this.renderUser(user));
+        let usersOutTask = this.state.usersOutTask.map(user => this.listUser(user));
+        if (users.length === 0) {
+            usersOutTask = 'there are no users to show'
+        }
         let id = `id-${this.props.task._id}`;
         let task = this.props.task;
         return (
@@ -110,17 +143,34 @@ class Task extends Component{
                             <div className="card-body">
                                 <h5 className="card-title">{task.name}</h5>
                                 <p className="card-text mb-3">{task.description}</p>
-                                    <button name="edit" onClick={this.handleClick} type="button" className="badge badge-primary">Edit</button>
-                                
+                                <button name="edit" onClick={this.handleClick} type="button" className="badge badge-primary">Edit</button>
+
                             </div>
                         </div>
                         <div className="tab-pane fade" id={`users-${id}`} role="tabpanel" aria-labelledby="users-tab">
                             <div className="card-body">
-                                <button name="assign" onClick={this.handleClick}
-                                    data-toggle="modal" data-target={"#" + id}
+                                <button data-toggle="modal" data-target={"#" + id}
                                     className="badge badge-primary" type="button">Assign User</button>
-                                <Modal returnRefresh={this.returnRefresh} key={task._id} task={task} users={this.state.usersOutTask} />
-                                {users}
+                                <div key={task._id} className="modal fade" id={`id-${task._id}`} tabIndex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                                    <div className="modal-dialog modal-dialog-scrollable" role="document">
+                                        <div className="modal-content">
+                                            <div className="modal-header">
+                                                <h5 className="modal-title" id="exampleModalScrollableTitle">Assign users to {task.name}</h5>
+                                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div className="modal-body">
+                                                {usersOutTask}
+                                            </div>
+                                            <div className="modal-footer">
+                                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button onClick={this.handleClick} type="button" className="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {usersInTask}
                             </div>
                         </div>
                     </div>

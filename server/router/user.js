@@ -11,7 +11,7 @@ app.get('/user', (req, res) => {
     from = Number(from);
     let limit = req.query.limit || 10;
     limit = Number(limit);
-    User.find({ state: true }, 'name email role state tasks')
+    User.find({ state: true }, 'name email role state')
         .skip(from)
         .limit(limit)
         .exec((err, users) => {

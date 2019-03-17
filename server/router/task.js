@@ -1,6 +1,7 @@
 //requires 
 const express = require('express');
 const Task = require('../models/task');
+const User = require('../models/user');
 const app = express()
 const { validateToken, validateAssignTask } = require('../middlewares/authentication');
 //get to list all the tasks from one position and show a user limit
@@ -118,7 +119,7 @@ app.put('/task/changeStatus/:id&:status', validateToken, (req, res) => {
     });
 });
 //put for assign taks to user, need user id and task id 
-app.put('/task/assignTask/:idUser&:idTask', validateAssignTask, (req, res) => {
+app.put('/task/assignUser/:idUser&:idTask', validateAssignTask, (req, res) => {
     let idUser = req.params.idUser;
     let idTask = req.params.idTask;
     Task.findById(idTask).exec((err, taskDB) => {
@@ -144,11 +145,19 @@ app.put('/task/assignTask/:idUser&:idTask', validateAssignTask, (req, res) => {
                     err
                 });
             }
-            res.json({
-                ok: true,
-                message: 'Task assigned',
-                userAdd: idUser
-            })
+            User.findById(idUser, (err, userDB) => {
+                if (err) {
+                    return res.status(500).json({
+                        ok: false,
+                        err
+                    });
+                };
+                res.json({
+                    ok: true,
+                    message: 'Taks assigned',
+                    user: userDB
+                });
+            });
         });
     });
 });
@@ -185,12 +194,19 @@ app.put('/task/removeUser/:idUser&:idTask', (req, res) => {
                     err
                 });
             }
-
-            res.json({
-                ok: true,
-                message: 'Task removed',
-                userRemove: idUser
-            })
+            User.findById(idUser, (err, userDB) => {
+                if (err) {
+                    return res.status(500).json({
+                        ok: false,
+                        err
+                    });
+                };
+                res.json({
+                    ok: true,
+                    message: 'User remove',
+                    user: userDB
+                });
+            });
         });
     });
 });
