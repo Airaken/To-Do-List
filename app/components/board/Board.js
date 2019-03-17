@@ -60,7 +60,6 @@ class Board extends Component{
         return (
             <div className="container">
                 <div className="row rounded-bottom bg-secondary">
-                    
                     <div className="col-12">
                         <form onSubmit={this.handleSubmit} >
                             <fieldset className="text-light">

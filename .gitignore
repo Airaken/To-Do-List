@@ -1,6 +1,1 @@
-/node_modules
-<<<<<<< HEAD
-**/dist
-=======
-/public/dist
->>>>>>> 87d8a55931822bf3e05d12f47a7e260115eab4d2
+node_modules/

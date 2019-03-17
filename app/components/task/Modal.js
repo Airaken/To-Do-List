@@ -6,14 +6,13 @@ class Modal extends Component{
         this.state={
             idUsersAssign:[]
         }
-        this.handleClick = this.handleClick.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);      
+        this.handleClick = this.handleClick.bind(this);    
     }
     componentDidMount(){
         this.props.returnRefresh(this.state.idUsersAssign);
     }
-    pushUserToTask(userId, taskIs) {
-        fetch('/task/assignTask/' + userId + '&' + taskIs, {
+    handleClick(e){
+        fetch('/task/assignTask/' + e.target.id + '&' + this.props.task._id, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -22,31 +21,22 @@ class Modal extends Component{
             .then(res => res.json())
             .then(data => {
                 console.log(data.message);
-                let idUsersAssign = this.state.idUsersAssign;
-                idUsersAssign.push(data.userAdd)
+                let idUsersAssign = this.state.idUsersAssign.filter(userId => userId._id!==data.userAdd);
+                console.log(idUsersAssign);
                 this.setState({idUsersAssign});
             })
-            .catch(err => console.log(err));
+            .catch(err => console.log(err));       
     }
-    handleClick(){
-        this.state.idUsersAssign.map(userId =>this.pushUserToTask(userId, this.props.task._id));        
-    }
-    handleInputChange(e) {
-        let idUsersAssign =this.state.idUsersAssign;
-        if(e.target.checked){
-            idUsersAssign.push(e.target.id);
-            this.setState({idUsersAssign})           
-        }               
-    }
+    // function to render each user that is not assigned to the task
     listUser(user) {
         return (
             <div className="input-group mb-3" key={user._id}>
                 <input value={user.name} disabled type="text" className="form-control" aria-label="Text input with checkbox" />
                 <div className="input-group-prepend">
-                    <div className="input-group-text">
-                        <input id={user._id} onChange={this.handleInputChange} type="checkbox" aria-label="Checkbox for following text input" />
+                    <div>
+                        <button name="remove" id={user._id} onClick={this.handleClick} className="badge badge-primary pl-2" type="button"> Assign</button>
                     </div>
-                </div>           
+                </div>
             </div>
         )
     }

@@ -53,9 +53,10 @@ class Task extends Component{
                 })
                     .then(res => res.json())
                     .then(data => {
-                        console.log(data.message);
+                        console.log(data.userRemove);
                         console.log(this.state.usersInTask);
-                        let usersInTask = this.state.usersInTask.filter(userId => userId===data.userRemove);
+                        let usersInTask = this.state.usersInTask.filter(userId => userId._id!==data.userRemove);
+                        console.log(usersInTask);
                         this.setState({ usersInTask });
                     })
                     .catch(err => console.log(err));
@@ -71,6 +72,7 @@ class Task extends Component{
         // usersInTask.push(...this.state.usersInTask);
         // this.setState({ usersInTask })
     }
+    // function to render each user assigned to the task
     renderUser(user) {
         return (
             <div key={user._id} className=" list-group-item list-group-item-action list-group-item-light" >
@@ -87,6 +89,7 @@ class Task extends Component{
             </div>
         )
     }
+    // main render task
     render() {
         let users = this.state.usersInTask.map(user => this.renderUser(user) );
         let id = `id-${this.props.task._id}`;
@@ -122,8 +125,7 @@ class Task extends Component{
                         </div>
                     </div>
                 </div>
-            </div>
-
+            </div> 
         )
     }
 }

@@ -137,7 +137,7 @@ app.put('/task/assignTask/:idUser&:idTask', validateAssignTask, (req, res) => {
             });
         }
         taskDB.users.push(idUser);
-        Task.findByIdAndUpdate(idTask, taskDB, { new: true, runValidator: true }, (err, userAdd) => {
+        Task.findByIdAndUpdate(idTask, taskDB, { new: true, runValidator: true }, (err) => {
             if (err) {
                 return res.status(500).json({
                     ok: false,
@@ -147,7 +147,7 @@ app.put('/task/assignTask/:idUser&:idTask', validateAssignTask, (req, res) => {
             res.json({
                 ok: true,
                 message: 'Task assigned',
-                userAdd
+                userAdd: idUser
             })
         });
     });
@@ -178,7 +178,7 @@ app.put('/task/removeUser/:idUser&:idTask', (req, res) => {
                 message: 'Task does not assigned'
             });
         }
-        Task.findByIdAndUpdate(idTask, { users: upTaskDB }, { new: true, runValidator: true }, (err, userRemove) => {
+        Task.findByIdAndUpdate(idTask, { users: upTaskDB }, { new: true, runValidator: true }, (err) => {
             if (err) {
                 return res.status(500).json({
                     ok: false,
@@ -189,7 +189,7 @@ app.put('/task/removeUser/:idUser&:idTask', (req, res) => {
             res.json({
                 ok: true,
                 message: 'Task removed',
-                userRemove
+                userRemove: idUser
             })
         });
     });
