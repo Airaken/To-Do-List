@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import './Task.css'
 import User from './User';
 class Task extends Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
          // usersSelect validates if the list of users of task cards is selected
         this.state = { 
             usersInTask:[],
             usersOutTask:[],
-            name:'',
-            description:'',
-            status:'',
+            name:this.props.task.name,
+            description:this.props.task.description,
+            status:this.props.task.status,
             disabled:true,
             visible:true
         }
@@ -18,11 +18,8 @@ class Task extends Component{
         this.handleClick = this.handleClick.bind(this);
     }  
     componentDidMount() {
+        console.log('init');
         this.fetchUsers();
-        let name = this.props.task.name;
-        let description = this.props.task.description;
-        let status = this.props.task.status;
-        this.setState({ name ,description, status})
     }
     // a fetch to get a list of users
     fetchUsers() {
@@ -52,9 +49,20 @@ class Task extends Component{
             })
             .catch(err => console.log(err));
     }
+    swithcTask(status){
+        fetch('/task/changeStatus/'+this.props.task._id+'&'+status, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(res => res.json())
+            .then(data => console.log(data.ok))
+            .catch(err => console.log(err));
+    }
     // this function change usersSelect depending on which link is selected
     handleClick(e) {
         console.log(e.target.name);
+        console.log(this.state.status);
         let disabled = false;
         let visible = false;
         switch (e.target.name) {
@@ -134,15 +142,19 @@ class Task extends Component{
                     .catch(err => console.log(err));
                 break;
             case 'open':
+            this.swithcTask('OPEN')
             this.setState({status:'OPEN'})
                 break;
             case 'in-progress':
+            this.swithcTask('IN-PROGRESS')
             this.setState({status:'IN-PROGRESS'})
                 break;
             case 'completed':
+            this.swithcTask('COMPLETED')
             this.setState({status:'COMPLETED'})
                 break;
             case 'archived':
+            this.swithcTask('ARCHIVED')
             this.setState({status:'ARCHIVED'})
                 break;
             default:

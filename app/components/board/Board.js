@@ -82,7 +82,7 @@ class Board extends Component{
                     </div>
                 </div>
                 <div className="row m2">
-                    {this.state.tasks.map(task => <Task task={task} key={task._id}/> )}
+                    {this.state.tasks.map(task => <Task task={task} key={task._id}/>)}
                 </div>
             </div>
         )

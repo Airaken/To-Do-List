@@ -69,8 +69,7 @@ app.put('/task/:id', validateToken, (req, res) => {
     let body = req.body;
     let upTask = {
         name: body.name,
-        description: body.description,
-        status: body.status
+        description: body.description
     }
     Task.findByIdAndUpdate(id, upTask, { new: true, runValidator: true }, (err, taskDB) => {
         if (err) {
