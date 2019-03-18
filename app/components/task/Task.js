@@ -161,8 +161,12 @@ class Task extends Component{
                         <li className="nav-item">
                             <a className="nav-link" id="users-tab" data-toggle="tab" href={`#users-${id}`} role="tab" aria-controls="users" aria-selected="false">Users</a>
                         </li>
+                        <li className="nav-item">
+                            <a className="nav-link" id="status-tab" data-toggle="tab" href={`#status-${id}`} role="tab" aria-controls="status" aria-selected="false">Status</a>
+                        </li>
                     </ul>
-                    <div className="tab-content" id="myTabContent">
+                    <div className="tab-content" id="tabContent">
+                        {/* tab of task info */}
                         <div className="tab-pane fade show active" id={`task-${id}`} role="tabpanel" aria-labelledby="task-tab">
                             {/* tthis is body card, it have name of task and message of task */}
                             <div className="card-body">
@@ -185,10 +189,11 @@ class Task extends Component{
                                 </div>
                             </div>
                         </div>
+                        {/* tab of users */}
                         <div className="tab-pane fade" id={`users-${id}`} role="tabpanel" aria-labelledby="users-tab">
                             <div className="card-body">
                                 <button data-toggle="modal" data-target={"#" + id}
-                                    className="badge badge-primary" type="button">Assign User</button>
+                                    className="m-1 mb-3 badge badge-primary" type="button">Assign User</button>
                                 <div key={task._id} className="modal fade" id={`id-${task._id}`} tabIndex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
                                     <div className="modal-dialog modal-dialog-scrollable" role="document">
                                         <div className="modal-content">
@@ -209,6 +214,10 @@ class Task extends Component{
                                 </div>
                                 {usersInTask}
                             </div>
+                        </div>
+                        {/* tab of satus */}
+                        <div className="tab-pane fade" id={`status-${id}`} role="tabpanel" aria-labelledby="status-tab">
+
                         </div>
                     </div>
                 </div>
