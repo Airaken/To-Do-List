@@ -27,7 +27,7 @@ class Signin extends Component {
                 }
             })
             .then(res => res.json())
-            .then(data => this.props.logInOut(data.ok))
+            .then(this.props.callback('login'))
             .catch(err => console.log(err));
         }
     }
@@ -38,7 +38,7 @@ class Signin extends Component {
         })
     }
     back(){
-        this.props.logInOut(false)
+        this.props.callback('login')
     }
     render() {
         return (

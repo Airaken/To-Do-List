@@ -22,7 +22,7 @@ class Login extends Component {
             }
         })
         .then(res => res.json())
-        .then(data => this.props.logInOut(data.ok))
+        .then(this.props.callback('main'))
         .catch(err => console.log(err));
     }
     handleInputChange(e){
@@ -32,7 +32,7 @@ class Login extends Component {
         })
     }
     signin(){
-        this.props.signin('signin')
+        this.props.callback('signin')
     }
     render() {
         return (

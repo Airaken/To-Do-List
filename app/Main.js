@@ -9,9 +9,8 @@ class Main extends Component {
             route:''
         }
     }
-    logInOut(result){
-        this.props.logInOut({result});
-        console.log('secound dream',result);
+    logOut(){
+        this.props.callback('login');
     }
     routes(route){
         this.setState({route});
@@ -34,7 +33,7 @@ class Main extends Component {
         }
         return (
             <div>
-                <Header routes={this.routes.bind(this)} logInOut={this.logInOut.bind(this)} />
+                <Header routes={this.routes.bind(this)} logOut={this.logOut.bind(this)} />
                 <div className="container">
                     {route}
                 </div>

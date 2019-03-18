@@ -8,18 +8,12 @@ class Board extends Component{
             name:'',
             description:''
         }
-        this.renderTask = this.renderTask.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
     componentDidMount(){
         this.fetchsTasks();
-    }
-    renderTask(task){
-        return(
-            <Task task={task} key={task._id}/>
-        );
     }
     fetchsTasks(value) {
         if (value) {
@@ -81,14 +75,14 @@ class Board extends Component{
                     <div className="pb-2 col d-flex justify-content-center">
                         <div className="input-group">
                             <div className="input-group-prepend">
-                                <span className="input-group-text" id="basic-addon1"><ion-icon name="search"></ion-icon></span>
+                                <span className="input-group-text" id="basic-addon1"><i className="fas fa-search"></i></span>
                             </div>
                             <input className="form-control" onChange={this.handleChange} type="search" placeholder="Search task" aria-label="Search" />
                         </div>
                     </div>
                 </div>
                 <div className="row m2">
-                    {this.state.tasks.map(task => this.renderTask(task))}
+                    {this.state.tasks.map(task => <Task task={task} key={task._id}/> )}
                 </div>
             </div>
         )

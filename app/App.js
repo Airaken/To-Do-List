@@ -15,33 +15,36 @@ class App extends Component{
     }
     isLogin() {
         fetch('/login/user')
-            .then(res => res.json().then(data => this.setState({ result: data.ok })))
-            .catch(res => res.json().then(data => this.setState({ result: data.ok })))
+            .then(res => res.json().then(data =>{
+                if(data.ok){
+                    this.setState({ result: 'main' })
+                }else{
+                    this.setState({ result: 'login' })
+                }
+        }))
+            .catch(res => res.json().then(this.setState({ result: 'login' })))
     }
-    logInOut(result){
-        this.setState({result});
-    }
-    signin(result){
+    callback(result){
         this.setState({result});
     }
     render(){
-        let render=<Login logInOut={this.logInOut.bind(this)} />;
+        let render=<Login callback={this.callback.bind(this)} />;
         // switch this.state.result for render components
         switch (this.state.result) {
-            case true:
-                render = <Main logInOut={this.logInOut.bind(this)} />
+            case 'main':
+                render = <Main  callback={this.callback.bind(this)} />
                 break;
-            case false:
-                render = <Login signin={this.signin.bind(this)} logInOut={this.logInOut.bind(this)} />
+            case 'login':
+                render = <Login callback={this.callback.bind(this)} />
                 break;
             case 'signin':
-                render = <Signin logInOut={this.logInOut.bind(this)} />
+                render = <Signin callback={this.callback.bind(this)} />
                 break
             case 'reload':
                 render = <Loading />
                 break
             default:
-                render = <Login signin={this.signin.bind(this)} logInOut={this.logInOut.bind(this)} />
+                render = <Login callback={this.callback.bind(this)} />
                 break;
         }
         return (

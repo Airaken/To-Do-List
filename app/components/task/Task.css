@@ -1,3 +1,22 @@
 .task-size {
     width: 18rem;
 }
+
+textarea {
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 100px;
+    min-height: 100px;
+}
+
+textarea:disabled {
+    background-color: white !important;
+}
+
+.task-title:disabled {
+    background-color: white !important;
+}
+
+.task-title-border {
+    border: 0 !important;
+}

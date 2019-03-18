@@ -17,10 +17,7 @@ class Header extends Component{
     handleClickLogout(){
         fetch('/logout')
         .then(res => res.json())
-        .then(data => {
-            let result = data.ok
-            this.props.logInOut(!result)
-        })
+        .then(this.props.logOut())
         .catch(err => console.log(err));
     }
     render(){
