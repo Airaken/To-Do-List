@@ -21,7 +21,8 @@ class Task extends Component{
         this.fetchUsers();
         let name = this.props.task.name;
         let description = this.props.task.description;
-        this.setState({ name ,description})
+        let status = this.props.task.status;
+        this.setState({ name ,description, status})
     }
     // a fetch to get a list of users
     fetchUsers() {
@@ -132,6 +133,18 @@ class Task extends Component{
                     })
                     .catch(err => console.log(err));
                 break;
+            case 'open':
+            this.setState({status:'OPEN'})
+                break;
+            case 'in-progress':
+            this.setState({status:'IN-PROGRESS'})
+                break;
+            case 'completed':
+            this.setState({status:'COMPLETED'})
+                break;
+            case 'archived':
+            this.setState({status:'ARCHIVED'})
+                break;
             default:
                 break;
         }
@@ -215,9 +228,16 @@ class Task extends Component{
                                 {usersInTask}
                             </div>
                         </div>
-                        {/* tab of satus */}
+                        {/* tab of satus  values: ['OPEN', 'IN-PROGRESS', 'COMPLETED', 'ARCHIVED'],*/}
                         <div className="tab-pane fade" id={`status-${id}`} role="tabpanel" aria-labelledby="status-tab">
-
+                            <div className="body-card">
+                                <div className="list-group">
+                                    <button onClick={this.handleClick} name="open" type="button" className={`list-group-item list-group-item-action ${this.state.status === 'OPEN' ? 'active' : ''}`}>OPEN</button>
+                                    <button onClick={this.handleClick} name="in-progress" type="button" className={`list-group-item list-group-item-action ${this.state.status === 'IN-PROGRESS' ? 'active' : ''}`}>IN-PROGRESS</button>
+                                    <button onClick={this.handleClick} name="completed" type="button" className={`list-group-item list-group-item-action ${this.state.status ==='COMPLETED' ? 'active' : ''}`}>COMPLETED</button>
+                                    <button onClick={this.handleClick} name="archived" type="button" className={`list-group-item list-group-item-action ${this.state.status === 'ARCHIVED' ? 'active' : ''}`}>ARCHIVED</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
