@@ -16,10 +16,10 @@ app.use(bodyParser.json());
 // files static
 app.use(express.static(path.resolve(__dirname, '../public')));
 
-//Config routers
+// add the request of server
 app.use(require('./router/index'));
 
-//connect with mongo
+//connect with mongoDB
 mongoose.connect(process.env.URLDB, { useNewUrlParser: true }, (err, res) => {
     if (err) throw err;
     console.log('Data Base Online');

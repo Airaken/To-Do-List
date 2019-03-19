@@ -4,7 +4,7 @@ const Task = require('../models/task');
 const User = require('../models/user');
 const app = express()
 const { validateToken, validateAssignTask } = require('../middlewares/authentication');
-//get to list all the tasks from one position and show a user limit
+// this method return all task, can retorn from position and limit
 app.get('/task', (req, res) => {
     let from = req.query.from || 0;
     from = Number(from);
@@ -27,7 +27,7 @@ app.get('/task', (req, res) => {
             });
         });
 });
-//get to a one task by id
+// this method return a task 
 app.get('/task/:id', (req, res) => {
     let id = req.params.id;
     Task.findById(id)
@@ -44,7 +44,7 @@ app.get('/task/:id', (req, res) => {
             });
         });
 });
-//get to search taks by name value
+// this method returns a list of tasks because of its similarity to the search
 app.get('/task/search/:value', (req, res) => {
     let value = req.params.value;
     let regex = new RegExp(value, 'i');
@@ -63,7 +63,7 @@ app.get('/task/search/:value', (req, res) => {
             });
         });
 });
-//put to update task
+// method put for update a task
 app.put('/task/:id', validateToken, (req, res) => {
     let id = req.params.id;
     let body = req.body;
