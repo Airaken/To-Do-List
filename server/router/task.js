@@ -8,7 +8,7 @@ const { validateToken, validateAssignTask } = require('../middlewares/authentica
 app.get('/task', (req, res) => {
     let from = req.query.from || 0;
     from = Number(from);
-    let limit = req.query.limit || 10;
+    let limit = req.query.limit || 0;
     limit = Number(limit);
     Task.find({}, 'name description status user users')
         .skip(from)
@@ -27,24 +27,32 @@ app.get('/task', (req, res) => {
             });
         });
 });
-// this method return a task 
+// this method return a task by id 
 app.get('/task/:id', (req, res) => {
     let id = req.params.id;
     Task.findById(id)
-        .exec((err, task) => {
+        .exec((err, taskDB) => {
             if (err) {
                 return res.status(400).json({
                     ok: false,
                     err
                 });
             }
+            if (!taskDB) {
+                return res.status(404).json({
+                    ok: false,
+                    err: {
+                        message: 'Can not find id'
+                    }
+                });
+            }
             res.json({
                 ok: true,
-                task
+                task: taskDB
             });
         });
 });
-// this method returns a list of tasks because of its similarity to the search
+// this method takes value of search from params and return a list of task that his name will be similar of search
 app.get('/task/search/:value', (req, res) => {
     let value = req.params.value;
     let regex = new RegExp(value, 'i');
@@ -73,13 +81,13 @@ app.put('/task/:id', validateToken, (req, res) => {
     }
     Task.findByIdAndUpdate(id, upTask, { new: true, runValidator: true }, (err, taskDB) => {
         if (err) {
-            return res.status(500).json({
+            return res.status(400).json({
                 ok: false,
                 err
             });
         }
         if (!taskDB) {
-            return res.status(400).json({
+            return res.status(404).json({
                 ok: false,
                 err: {
                     message: 'Can not find id'

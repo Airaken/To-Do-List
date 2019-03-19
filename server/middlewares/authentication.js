@@ -44,7 +44,7 @@ let validateAssignTask = (req, res, next) => {
             });
         }
         if (!taskDB) {
-            return res.status(400).json({
+            return res.status(404).json({
                 ok: false,
                 err: {
                     message: 'Can not find id'

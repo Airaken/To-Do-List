@@ -7,12 +7,10 @@ const bcrypt = require('bcrypt');
 const { validateToken, validateAdminRole } = require('../middlewares/authentication');
 //get to list all the users from one position and show a user limit 
 app.get('/user', (req, res) => {
-    // this variables are for make a limited list of users
     let from = req.query.from || 0;
     from = Number(from);
     let limit = req.query.limit || 10;
     limit = Number(limit);
-    // find method of mongoose, returns all users of the data base, only reutrn name, email, role and state of user
     User.find({ state: true }, 'name email role state')
         .skip(from)
         .limit(limit)
@@ -33,16 +31,24 @@ app.get('/user', (req, res) => {
 app.get('/user/:id', (req, res) => {
     let id = req.params.id;
     User.findById(id)
-        .exec((err, user) => {
+        .exec((err, userDB) => {
             if (err) {
                 return res.status(400).json({
                     ok: false,
                     err
                 });
             }
+            if (!userDB) {
+                return res.status(404).json({
+                    ok: false,
+                    err: {
+                        message: 'Can not find id'
+                    }
+                });
+            }
             res.json({
                 ok: true,
-                user
+                user: userDB
             });
         });
 });
