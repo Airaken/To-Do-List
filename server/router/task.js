@@ -27,7 +27,7 @@ app.get('/task', (req, res) => {
             });
         });
 });
-// this method return a task by id 
+// this method find a task by id and then returns it 
 app.get('/task/:id', (req, res) => {
     let id = req.params.id;
     Task.findById(id)
@@ -71,7 +71,7 @@ app.get('/task/search/:value', (req, res) => {
             });
         });
 });
-// method put for update a task
+// method method update a task, only update name and description of task the user who created the task can't be update
 app.put('/task/:id', validateToken, (req, res) => {
     let id = req.params.id;
     let body = req.body;
@@ -100,7 +100,7 @@ app.put('/task/:id', validateToken, (req, res) => {
         })
     });
 });
-//put to change a status of task
+// this method switch the status of task, only returns a message
 app.put('/task/changeStatus/:id&:status', validateToken, (req, res) => {
     let id = req.params.id;
     let status = req.params.status;
@@ -125,7 +125,7 @@ app.put('/task/changeStatus/:id&:status', validateToken, (req, res) => {
         })
     });
 });
-//put for assign taks to user, need user id and task id 
+// this method assign a user to a task, takes a value from params, update task and them returns a user assigned 
 app.put('/task/assignUser/:idUser&:idTask', validateAssignTask, (req, res) => {
     let idUser = req.params.idUser;
     let idTask = req.params.idTask;
@@ -168,7 +168,7 @@ app.put('/task/assignUser/:idUser&:idTask', validateAssignTask, (req, res) => {
         });
     });
 });
-//put for remove taks to user, need user id and task id 
+// this method remove a user to a task, takes a value from params, update task and them returns a user removed  
 app.put('/task/removeUser/:idUser&:idTask', (req, res) => {
     let idUser = req.params.idUser;
     let idTask = req.params.idTask;
@@ -217,7 +217,7 @@ app.put('/task/removeUser/:idUser&:idTask', (req, res) => {
         });
     });
 });
-//post to create a new task
+// this method create a new task 
 app.post('/task', validateToken, (req, res) => {
     let body = req.body;
     let task = new Task({
@@ -237,5 +237,5 @@ app.post('/task', validateToken, (req, res) => {
         });
     });
 });
-
+// exporte module
 module.exports = app;

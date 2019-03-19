@@ -3,13 +3,13 @@ const express = require('express');
 const app = express();
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
-//require for validate token, admin and task
+// require for validate token, admin and task
 const { validateToken, validateAdminRole } = require('../middlewares/authentication');
-//get to list all the users from one position and show a user limit 
+//get to list of all the users from one position and show a users limit 
 app.get('/user', (req, res) => {
     let from = req.query.from || 0;
     from = Number(from);
-    let limit = req.query.limit || 10;
+    let limit = req.query.limit || 0;
     limit = Number(limit);
     User.find({ state: true }, 'name email role state')
         .skip(from)
@@ -27,7 +27,7 @@ app.get('/user', (req, res) => {
             });
         });
 });
-// this method returns a user, it is find by id
+// this method find a user by id and then return it 
 app.get('/user/:id', (req, res) => {
     let id = req.params.id;
     User.findById(id)
@@ -74,5 +74,5 @@ app.post('/user', function(req, res) {
         });
     });
 });
-
+// exporte module
 module.exports = app;

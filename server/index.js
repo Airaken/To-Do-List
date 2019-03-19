@@ -1,6 +1,6 @@
-//add env config
+//add environment config 
 require('./config/config');
-//requires 
+//requires form the app
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-// files static
+// files static 
 app.use(express.static(path.resolve(__dirname, '../public')));
 
 // add the request of server

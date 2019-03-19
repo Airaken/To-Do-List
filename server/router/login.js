@@ -5,7 +5,7 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { validateToken } = require('../middlewares/authentication');
-//post to validate login in web app
+// this method validate login in the web app
 app.post('/login', (req, res) => {
     let body = req.body;
     User.findOne({ email: body.email }, (err, userDB) => {
@@ -41,30 +41,30 @@ app.post('/login', (req, res) => {
         });
     });
 });
-
+// this method returns to the user of the session
 app.get('/login/user', validateToken, (req, res) => {
-    let id = req.user._id;
-    User.findById(id)
-        .exec((err, user) => {
-            if (err) {
-                return res.status(400).json({
-                    ok: false,
-                    err
+        let id = req.user._id;
+        User.findById(id)
+            .exec((err, user) => {
+                if (err) {
+                    return res.status(400).json({
+                        ok: false,
+                        err
+                    });
+                }
+                res.json({
+                    ok: true,
+                    user
                 });
-            }
-            res.json({
-                ok: true,
-                user
             });
-        });
-})
-
+    })
+    // this method change the token of session to void 
 app.get('/logout', (req, res) => {
-    process.env.TOKEN = '';
-    res.json({
-        ok: true,
-        message: 'logout successful'
-    });
-})
-
+        process.env.TOKEN = '';
+        res.json({
+            ok: true,
+            message: 'logout successful'
+        });
+    })
+    // exporte module
 module.exports = app;
