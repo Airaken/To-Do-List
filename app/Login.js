@@ -22,8 +22,14 @@ class Login extends Component {
             }
         })
         .then(res => res.json())
-        .then(this.props.callback('main'))
-        .catch(err => console.log(err));
+        .then(data =>{
+            if(data.ok){
+                this.props.callback('main')
+            }else{
+                alert(data.err.message)
+            }
+        })
+        .catch(err => alert(err.message));
     }
     handleInputChange(e){
         const{name, value} = e.target;

@@ -28,25 +28,33 @@ class Task extends Component{
                     .then(res => res.json())
                     .then(data => {
                         //add user to list of users assigned in task
-                        let usersInTask = this.state.usersInTask;
-                        usersInTask.push(data.user);
-                        this.setState({usersInTask});
+                        if (data.ok) {
+                            let usersInTask = this.state.usersInTask;
+                            usersInTask.push(data.user);
+                            this.setState({ usersInTask });
+                        } else {
+                            alert(data.err.message)
+                        }
                     })
-                    .catch(err => console.log(err));
+                    .catch(err => alert(err.message));
             });
         }
         fetch('/user')
             .then(res => res.json())
             .then(data => {
                 //add user to list of users not assigned in thask-
-                let users = data.user;
-                let usersOutTask = data.users;
-                this.state.usersInTask.map(userTask => {
-                    usersOutTask = usersOutTask.filter(user => user._id !== userTask._id);
-                });
-                this.setState({users,usersOutTask});
+                if (data.ok) {
+                    let users = data.user;
+                    let usersOutTask = data.users;
+                    this.state.usersInTask.map(userTask => {
+                        usersOutTask = usersOutTask.filter(user => user._id !== userTask._id);
+                    });
+                    this.setState({ users, usersOutTask });
+                } else {
+                    alert(data.err.message)
+                }
             })
-            .catch(err => console.log(err));
+            .catch(err => alert(err.message));
     }
     swithcTask(status){
         fetch('/task/changeStatus/'+this.props.task._id+'&'+status, {
@@ -55,8 +63,14 @@ class Task extends Component{
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(res => res.json())
-            .then(data => console.log(data.ok))
-            .catch(err => console.log(err));
+            .then(data => {
+                if (data.ok) {
+                    console.log(data.ok)
+                } else {
+                    alert(data.err.message)
+                }
+            })
+            .catch(err => alert(err.message));
     }
     // this function change usersSelect depending on which link is selected
     handleClick(e) {
@@ -75,12 +89,16 @@ class Task extends Component{
                     .then(res => res.json())
                     .then(data => {
                         //add user to list of users assigned
-                        let usersOutTask = this.state.usersOutTask.filter(userId => userId._id !== data.user._id);
-                        let usersInTask = this.state.usersInTask;
-                        usersInTask.push(data.user)
-                        this.setState({usersInTask,usersOutTask});
+                        if (data.ok) {                           
+                            let usersOutTask = this.state.usersOutTask.filter(userId => userId._id !== data.user._id);
+                            let usersInTask = this.state.usersInTask;
+                            usersInTask.push(data.user)
+                            this.setState({ usersInTask, usersOutTask });
+                        } else {
+                            alert(data.err.message)
+                        }
                     })
-                    .catch(err => console.log(err));
+                    .catch(err => alert(err.message));
                 break;
             case 'Remove':
                 fetch('/task/removeUser/' + e.target.id + '&' + this.props.task._id, {
@@ -92,12 +110,16 @@ class Task extends Component{
                     .then(res => res.json())
                     .then(data => {
                         // remove users to list of users asssigned in task
-                        let usersInTask = this.state.usersInTask.filter(userId => userId._id !== data.user._id);
-                        let usersOutTask = this.state.usersOutTask;
-                        usersOutTask.push(data.user)
-                        this.setState({ usersOutTask, usersInTask });
+                        if (data.ok) {
+                            let usersInTask = this.state.usersInTask.filter(userId => userId._id !== data.user._id);
+                            let usersOutTask = this.state.usersOutTask;
+                            usersOutTask.push(data.user)
+                            this.setState({ usersOutTask, usersInTask });
+                        } else {
+                            alert(data.err.message)
+                        }
                     })
-                    .catch(err => console.log(err));
+                    .catch(err => alert(err.message));
                 break;
             case 'Edit':
                 disabled = false;
@@ -132,13 +154,16 @@ class Task extends Component{
                 })
                     .then(res => res.json())
                     .then(data => {
-                        console.log(data.ok);
-                        this.setState({
-                            disabled,
-                            visible
-                        })
+                        if (data.ok) {
+                            this.setState({
+                                disabled,
+                                visible
+                            })
+                        } else {
+                            alert(data.err.message)
+                        }
                     })
-                    .catch(err => console.log(err));
+                    .catch(err => alert(err.message));
                 break;
             case 'open':
             this.swithcTask('OPEN')

@@ -17,8 +17,14 @@ class Header extends Component{
     handleClickLogout(){
         fetch('/logout')
         .then(res => res.json())
-        .then(this.props.logOut())
-        .catch(err => console.log(err));
+        .then(data =>{
+            if(data.ok){
+                this.props.logOut()
+            }else{
+                alert(data.err.message)
+            }
+        })
+        .catch(err => alert(err.message));
     }
     render(){
         return (
@@ -31,10 +37,10 @@ class Header extends Component{
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav mr-auto">
                             <li className="p-1 nav-item active">
-                                <button id="users" type="button" onClick={this.handleClick} className="btn btn-dark">Users</button>
+                                <button id="users" type="button" onClick={this.handleClick} className="btn btn-dark">List Users</button>
                             </li>
                             <li className="p-1 nav-item active">
-                                <button id="tasks" type="button" onClick={this.handleClick} className="btn btn-dark">Archived tasks</button>
+                                <button id="tasks" type="button" onClick={this.handleClick} className="btn btn-dark">List tasks</button>
                             </li>
                         </ul>
                         <button id="logout" type="button" onClick={this.handleClickLogout} className="btn btn-danger">Logout</button>

@@ -11,6 +11,8 @@ class Users extends Component {
             name:'',
             role:'USER_ROLE'
         }
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
         this.renderUser = this.renderUser.bind(this);
     }
     // function to render each user, show the name, email, rola and number of task they have 
@@ -28,21 +30,52 @@ class Users extends Component {
     componentDidMount() {
         this.fetchUsers();
     }
+    componentWillUnmount(){
+        this.fetchUsers(true);
+    }
+    handleSubmit(e){
+        e.preventDefault();
+        if(this.state.ppassword!==this.state.password){
+            alert('passwords does not match');
+        }else{
+            const data = new URLSearchParams("email="+this.state.email+"&password="+this.state.password+"&name="+this.state.name+"&role="+this.state.role);
+            fetch('/user', {
+                method: 'POST',
+                body: data,
+                headers:{
+                    'Content-Type':'application/x-www-form-urlencoded'
+                }
+            })
+            .then(res => res.json())
+            .then(data =>{
+                console.log(data.ok);
+                let users = this.state.users;
+                users.push(data.user);
+                this.setState({email:'', password:'', ppassword:'', name:'', role:'USER_ROLE',users});
+            })
+            .catch(err => alert(err.message));
+        }
+    }
     handleInputChange(e){
         const{name, value} = e.target;
         this.setState({
             [name]:value
         })
-    }
-    
+    }    
     // a fetch to get a list of users 
-    fetchUsers() {
+    fetchUsers(off) {
+        if (!off) {
         fetch('/user')
             .then(res => res.json())
             .then(data => {
-                this.setState({ users: data.users });
+                if(data.ok){
+                    this.setState({ users: data.users });
+                }else{
+                    alert(data.err.message)
+                }
             })
-            .catch(err => console.log(err));
+            .catch(err => alert(err.message));
+        }
     }
     // main render of class User, organice the list and send the html code to App.js
     render() {
@@ -57,23 +90,23 @@ class Users extends Component {
                                     <h1 className="p-1 h3 mb-3 font-weight-normal">Create a new user</h1>
                                     <div className="form-label-group">
                                         <label className="sr-only">Email address</label>
-                                        <input name="email" onChange={this.handleInputChange} type="email" id="email" className="m-1 form-control" placeholder="Email address" required autoFocus />
+                                        <input name="email" value={this.state.email} onChange={this.handleInputChange} type="email" id="email" className="m-1 form-control" placeholder="Email address" required autoFocus />
                                     </div>
                                     <div className="form-label-group">
                                         <label className="sr-only">Password</label>
-                                        <input name="password" onChange={this.handleInputChange} type="password" id="password" className="m-1 form-control" placeholder="Password" required />
+                                        <input name="password" value={this.state.password} onChange={this.handleInputChange} type="password" id="password" className="m-1 form-control" placeholder="Password" required />
                                     </div>
                                     <div className="form-label-group">
                                         <label className="sr-only">Re-Password</label>
-                                        <input name="ppassword" onChange={this.handleInputChange} type="password" id="ppassword" className="m-1 form-control" placeholder="Re-Password" required />
+                                        <input name="ppassword" value={this.state.ppassword} onChange={this.handleInputChange} type="password" id="ppassword" className="m-1 form-control" placeholder="Re-Password" required />
                                     </div>
                                     <div className="form-label-group">
                                         <label className="sr-only">Name</label>
-                                        <input name="name" onChange={this.handleInputChange} type="test" id="name" className="m-1 form-control" placeholder="Name" required />
+                                        <input name="name" value={this.state.name} onChange={this.handleInputChange} type="test" id="name" className="m-1 form-control" placeholder="Name" required />
                                     </div>
                                     <div className="form-label-group">
                                         <label className="sr-only">Role</label>
-                                        <select name="role" onChange={this.handleInputChange} id="role" className="m-1 form-control">
+                                        <select name="role" value={this.state.role} onChange={this.handleInputChange} id="role" className="m-1 form-control">
                                             <option value="USER_ROLE">USER_ROLE</option>
                                             <option value="ADMIN_ROLE">ADMIN_ROLE</option>
                                         </select>

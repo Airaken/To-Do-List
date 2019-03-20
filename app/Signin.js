@@ -28,7 +28,7 @@ class Signin extends Component {
             })
             .then(res => res.json())
             .then(this.props.callback('login'))
-            .catch(err => console.log(err));
+            .catch(err => alert(err.message));
         }
     }
     handleInputChange(e){

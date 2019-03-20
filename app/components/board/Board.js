@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Task from '../task/Task';
+
 class Board extends Component{
     constructor(){
         super();
@@ -19,22 +20,37 @@ class Board extends Component{
         this.fetchsTasks(null, true);
     }
     fetchsTasks(value, off) {
-        if (value) {
-            fetch('/task/search/' + value)
-                .then(res => res.json())
-                .then(data => this.setState({ tasks: data.tasks }))
-                .catch(err => console.log(err));
-        } else {
-            fetch('/task')
-                .then(res => res.json())
-                .then(data => this.setState({ tasks: data.tasks }))
-                .catch(err => console.log(err));
-        }
+        if(!off){
+            if (value) {
+                fetch('/task/search/' + value)
+                    .then(res => res.json())
+                    .then(data => {
+                        if(data.ok){
+                            this.setState({ tasks: data.tasks })
+                        }else{
+                            alert(data.err.message)
+                        }
+                    })
+                    .catch(err => alert(err.message));
+            } else {
+                fetch('/task')
+                    .then(res => res.json())
+                    .then(data => {
+                    if(data.ok){
+                        this.setState({ tasks: data.tasks })
+                    }else{
+                        alert(data.err.message)
+                    }
+                })
+                    .catch(err => alert(err.message));
+            }
+        }  
     }
     handleChange(e){
         this.fetchsTasks(e.target.value);
     }
-    handleSubmit(){
+    handleSubmit(e){
+        e.preventDefault();
         const data = new URLSearchParams("name="+this.state.name+"&description="+this.state.description+"&status=OPEN");
         fetch('/task', {
             method: 'POST',
@@ -44,8 +60,14 @@ class Board extends Component{
             }
         })
             .then(res => res.json())
-            .then(this.fetchsTasks())
-            .catch(err => console.log(err));
+            .then(data =>{
+                if(data.ok){
+                    this.fetchsTasks()
+                }else{
+                    alert(data.err.message)
+                }
+            })
+            .catch(err => alert(err.message));
     }
     handleInputChange(e) {
         const { name, value } = e.target;
@@ -53,7 +75,7 @@ class Board extends Component{
             [name]: value
         })
     }
-    render() {      
+    render() {   
         return (
             <div className="container">
                 <div className="row rounded-bottom bg-secondary">
