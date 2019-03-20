@@ -15,7 +15,10 @@ class Board extends Component{
     componentDidMount(){
         this.fetchsTasks();
     }
-    fetchsTasks(value) {
+    componentWillUnmount(){
+        this.fetchsTasks(null, true);
+    }
+    fetchsTasks(value, off) {
         if (value) {
             fetch('/task/search/' + value)
                 .then(res => res.json())

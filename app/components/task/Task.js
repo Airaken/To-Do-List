@@ -18,7 +18,6 @@ class Task extends Component{
         this.handleClick = this.handleClick.bind(this);
     }  
     componentDidMount() {
-        console.log('init');
         this.fetchUsers();
     }
     // a fetch to get a list of users
@@ -176,6 +175,19 @@ class Task extends Component{
         }
         let id = `id-${this.props.task._id}`;
         let task = this.props.task;
+        let badge = '';
+        switch(this.state.status){
+            case 'OPEN':badge = 'primary'
+                break;
+            case 'IN-PROGRESS':badge = 'secondary'
+                break;
+            case 'COMPLETED':badge = 'success'
+                break;
+            case 'ARCHIVED':badge = 'danger'
+                break;
+            default:
+                break;
+        }
         return (
             <div className="col-lg-4 col-md-6 col-sm-12 col-12 mb-3 mt-3">
                 <div className="card" key={task._id}>
@@ -188,6 +200,9 @@ class Task extends Component{
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" id="status-tab" data-toggle="tab" href={`#status-${id}`} role="tab" aria-controls="status" aria-selected="false">Status</a>
+                        </li>
+                        <li className="nav-item mx-auto">
+                            <span  className={`nav-item status badge badge-${badge}`}>{this.state.status}</span>
                         </li>
                     </ul>
                     <div className="tab-content" id="tabContent">
@@ -242,7 +257,7 @@ class Task extends Component{
                         </div>
                         {/* tab of satus  values: ['OPEN', 'IN-PROGRESS', 'COMPLETED', 'ARCHIVED'],*/}
                         <div className="tab-pane fade" id={`status-${id}`} role="tabpanel" aria-labelledby="status-tab">
-                            <div className="body-card">
+                            <div className="body-card m-4">
                                 <div className="list-group">
                                     <button onClick={this.handleClick} name="open" type="button" className={`list-group-item list-group-item-action ${this.state.status === 'OPEN' ? 'active' : ''}`}>OPEN</button>
                                     <button onClick={this.handleClick} name="in-progress" type="button" className={`list-group-item list-group-item-action ${this.state.status === 'IN-PROGRESS' ? 'active' : ''}`}>IN-PROGRESS</button>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './components/header/Header';
 import Board from './components/board/Board';
 import Users from './components/users/Users';
+import List from './components/task/List';
 class Main extends Component {
     constructor(){
         super();
@@ -24,8 +25,8 @@ class Main extends Component {
             case 'users':
                 route = <Users />
                 break;
-            case 'newTask':
-                route= '';
+            case 'tasks':
+                route= <List/>;
                 break;
             default:
                 route = <Board />

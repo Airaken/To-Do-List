@@ -52,23 +52,26 @@ class Signin extends Component {
                                     <h1 className="p-1 h3 mb-3 font-weight-normal">Please sign in</h1>
                                     <div className="form-label-group">
                                         <label className="sr-only">Email address</label>
-                                        <input name="email" onChange={this.handleInputChange} type="email" id="email" className="m-1 form-control" placeholder="Email address" required="" autoFocus="" />
+                                        <input name="email" onChange={this.handleInputChange} type="email" id="email" className="m-1 form-control" placeholder="Email address" required autoFocus />
                                     </div>
                                     <div className="form-label-group">
                                         <label className="sr-only">Password</label>
-                                        <input name="password" onChange={this.handleInputChange} type="password" id="password" className="m-1 form-control" placeholder="Password" required="" />
+                                        <input name="password" onChange={this.handleInputChange} type="password" id="password" className="m-1 form-control" placeholder="Password" required />
                                     </div>
                                     <div className="form-label-group">
                                         <label className="sr-only">Re-Password</label>
-                                        <input name="ppassword" onChange={this.handleInputChange} type="password" id="ppassword" className="m-1 form-control" placeholder="Re-Password" required="" />
+                                        <input name="ppassword" onChange={this.handleInputChange} type="password" id="ppassword" className="m-1 form-control" placeholder="Re-Password" required />
                                     </div>
                                     <div className="form-label-group">
                                         <label className="sr-only">Name</label>
-                                        <input name="name" onChange={this.handleInputChange} type="test" id="name" className="m-1 form-control" placeholder="Name" required="" />
+                                        <input name="name" onChange={this.handleInputChange} type="test" id="name" className="m-1 form-control" placeholder="Name" required />
                                     </div>
                                     <div className="form-label-group">
                                         <label className="sr-only">Role</label>
-                                        <input name="role" onChange={this.handleInputChange} type="test" id="role" className="m-1 form-control" disabled placeholder="Role" required="" value="USER_ROLE" />
+                                        <select name="role" onChange={this.handleInputChange} id="role" className="m-1 form-control">
+                                            <option value="USER_ROLE">USER_ROLE</option>
+                                            <option value="ADMIN_ROLE">ADMIN_ROLE</option>
+                                        </select>
                                     </div>
                                     <button className="m-1 btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
                                     <div className="d-flex justify-content-center p-2">
