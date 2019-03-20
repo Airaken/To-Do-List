@@ -65,7 +65,7 @@ class List extends Component {
         }
     }
     handleChange(e) {
-        console.log(e.target.id);
+        console.log(e.target.value);
         if(e.target.id==='value'){
             this.fetchsTasks(e.target.value);
         }else{
@@ -92,10 +92,28 @@ class List extends Component {
                     </div>
                     <div className="col-12">
                         <div className="btn-group btn-group-toggle" data-toggle="buttons">
-                                <input onChange={this.handleChange} type="radio" name="status" value="OPEN" id="OPEN" /> OPEN
-                                <input onChange={this.handleChange} type="radio" name="status" value="IN-PROGRESS" id="IN-PROGRESS" /> IN-PROGRESS
-                                <input onChange={this.handleChange} type="radio" name="status" value="COMPLETED" id="COMPLETED" /> COMPLETE
-                                <input onChange={this.handleChange} type="radio" name="status" value="ARCHIVED" id="ARCHIVED" /> ARCHIVED
+                            <button onChange={this.handleChange}  name="status" value="OPEN" id="OPEN" className="btn btn-secondary">
+                                <input type="radio" /> OPEN </button>
+                            <button onChange={this.handleChange} name="status" value="IN-PROGRESS" id="IN-PROGRESS" className="btn btn-secondary">
+                                <input type="radio" /> IN-PROGRESS </button>
+                            <button onChange={this.handleChange} name="status" value="COMPLETED" id="COMPLETED" className="btn btn-secondary">
+                                <input type="radio" /> COMPLETED </button>
+                            <button onChange={this.handleChange} name="status" value="ARCHIVED" id="ARCHIVED" className="btn btn-secondary">
+                                <input type="radio" /> ARCHIVED </button>
+                        </div>
+                        <div className="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label className="btn btn-secondary active">
+                                <input onChange={this.handleChange}  name="status" value="OPEN" id="OPEN" type="checkbox" checked autocomplete="off" /> Checked
+                            </label>
+                            <label className="btn btn-secondary active">
+                                <input onChange={this.handleChange} name="status" value="IN-PROGRESS" id="IN-PROGRESS"  type="checkbox" checked autocomplete="off" /> Checked
+                            </label>
+                            <label className="btn btn-secondary active">
+                                <input onChange={this.handleChange} name="status" value="COMPLETED" type="checkbox" checked autocomplete="off" /> Checked
+                            </label>
+                            <label className="btn btn-secondary active">
+                                <input onChange={this.handleChange} name="status" value="ARCHIVED" id="ARCHIVED" type="checkbox" checked autocomplete="off" /> Checked
+                            </label>
                         </div>
                     </div>
                 </div>

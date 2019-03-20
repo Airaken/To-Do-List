@@ -222,7 +222,8 @@ app.post('/task', validateToken, (req, res) => {
     let body = req.body;
     let task = new Task({
         name: body.name,
-        description: body.description
+        description: body.description,
+        user: req.user._id
     });
     task.save((err, taskDB) => {
         if (err) {
