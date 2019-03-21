@@ -11,6 +11,7 @@ class Login extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.signin = this.signin.bind(this);
     }
+    // this function takes the form data to create the user in the data base
     handleSubmit(e){
         e.preventDefault();
         const data = new URLSearchParams("email="+this.state.email+"&password="+this.state.password);
@@ -31,18 +32,19 @@ class Login extends Component {
         })
         .catch(err => alert(err.message));
     }
+    // this function change the states and keep it
     handleInputChange(e){
         const{name, value} = e.target;
         this.setState({
             [name]:value
         })
     }
+    // this function retorn to the signin page
     signin(){
         this.props.callback('signin')
     }
     render() {
         return (
-            //code https://startbootstrap.com/snippets/login/
             <div className="container">
                 <div className="row">
                     <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">

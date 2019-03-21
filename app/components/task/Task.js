@@ -17,6 +17,7 @@ class Task extends Component{
         this.handlerOnChange = this.handlerOnChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }  
+     // this function executes the necessary code to load the data before assembling the elements
     componentDidMount() {
         this.fetchUsers();
     }
@@ -56,6 +57,7 @@ class Task extends Component{
             })
             .catch(err => alert(err.message));
     }
+    
     swithcTask(status){
         fetch('/task/changeStatus/'+this.props.task._id+'&'+status, {
             method: 'PUT',

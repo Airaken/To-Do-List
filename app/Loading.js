@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-//change page for load page
 class Loading extends Component {
   render() {
     return (

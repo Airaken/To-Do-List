@@ -3,6 +3,7 @@ class User extends Component {
     render() {
         let name = this.props.name;
         let style = '';
+        // this switch change the type of color according to the user's state
         switch (name) {
             case 'Assign':
                 style='primary'

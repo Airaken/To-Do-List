@@ -4,28 +4,31 @@ import Main from './Main'
 import Loading from './Loading';
 import {render} from 'react-dom';
 import Signin from './Signin';
+
 class App extends Component{
     constructor(){
         super();       
         this.state = {
-            result:'reload'
+            route:'reload'
         }
         this.isLogin = this.isLogin.bind(this);   
         this.isLogin();
     }
+    // this function inquires if a user is already login
     isLogin() {
         fetch('/login/user')
             .then(res => res.json().then(data =>{
                 if(data.ok){
-                    this.setState({ result: 'main' })
+                    this.setState({ route: 'main' })
                 }else{
-                    this.setState({ result: 'login' })
+                    this.setState({ route: 'login' })
                 }
         }))
-            .catch(res => res.json().then(this.setState({ result: 'login' })))
+            .catch(res => res.json().then(this.setState({ route: 'login' })))
     }
-    callback(result){
-        this.setState({result});
+    // this fuction change the state of route
+    callback(route){
+        this.setState({route});
     }
     render(){
         let render=<Login callback={this.callback.bind(this)} />;

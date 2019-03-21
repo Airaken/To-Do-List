@@ -3,6 +3,7 @@ import Header from './components/header/Header';
 import Board from './components/board/Board';
 import Users from './components/users/Users';
 import List from './components/list/List';
+//construction of class Signin that 
 class Main extends Component {
     constructor(){
         super();
@@ -10,14 +11,17 @@ class Main extends Component {
             route:''
         }
     }
+    // this function retorn to the login page
     logOut(){
         this.props.callback('login');
     }
+    // this function change the states for route control of the application
     routes(route){
         this.setState({route});
     }
     render() {
         let route= '';
+        // this funtion takes the route depending on the value of the
         switch (this.state.route) {
             case 'board':
                 route = <Board />

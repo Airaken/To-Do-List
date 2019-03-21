@@ -27,12 +27,15 @@ class Users extends Component {
             </li>
         );
     }
+    // this function executes the necessary code to load the data before assembling the elements
     componentDidMount() {
         this.fetchUsers();
     }
+    // this function unmount a fetch function to avoid state changes in disassembled elements
     componentWillUnmount(){
         this.fetchUsers(true);
     }
+    // this function takes the form data to create the user in the data base
     handleSubmit(e){
         e.preventDefault();
         if(this.state.ppassword!==this.state.password){
@@ -56,6 +59,7 @@ class Users extends Component {
             .catch(err => alert(err.message));
         }
     }
+    // this function change the states and keep it
     handleInputChange(e){
         const{name, value} = e.target;
         this.setState({

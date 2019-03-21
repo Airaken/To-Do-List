@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 class Signin extends Component {
+    //construction of class Signin that 
     constructor(){
         super();
         this.state = {
@@ -13,6 +14,7 @@ class Signin extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.back = this.back.bind(this);
     }
+    // this function takes the form data to create the user in the data base
     handleSubmit(e){
         e.preventDefault();
         if(this.state.ppassword!==this.state.password){
@@ -31,12 +33,14 @@ class Signin extends Component {
             .catch(err => alert(err.message));
         }
     }
+    // this function change the states and keep it
     handleInputChange(e){
         const{name, value} = e.target;
         this.setState({
             [name]:value
         })
     }
+    // this function returns to the login without adding a user
     back(){
         this.props.callback('login')
     }
