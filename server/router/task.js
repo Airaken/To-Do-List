@@ -5,7 +5,7 @@ const User = require('../models/user');
 const app = express()
 const { validateToken, validateAssignTask } = require('../middlewares/authentication');
 // this method return all task, can retorn from position and limit
-app.get('/task', (req, res) => {
+app.get('/task', validateToken, (req, res) => {
     let from = req.query.from || 0;
     from = Number(from);
     let limit = req.query.limit || 0;
@@ -28,7 +28,7 @@ app.get('/task', (req, res) => {
         });
 });
 // this method find a task by id and then returns it 
-app.get('/task/:id', (req, res) => {
+app.get('/task/:id', validateToken, (req, res) => {
     let id = req.params.id;
     Task.findById(id)
         .exec((err, taskDB) => {
@@ -53,7 +53,7 @@ app.get('/task/:id', (req, res) => {
         });
 });
 // this method takes value of search from params and return a list of task that his name will be similar of search
-app.get('/task/search/:value', (req, res) => {
+app.get('/task/search/:value', validateToken, (req, res) => {
     let value = req.params.value;
     let regex = new RegExp(value, 'i');
     Task.find({ name: regex })
@@ -169,7 +169,7 @@ app.put('/task/assignUser/:idUser&:idTask', validateAssignTask, (req, res) => {
     });
 });
 // this method remove a user to a task, takes a value from params, update task and them returns a user removed  
-app.put('/task/removeUser/:idUser&:idTask', (req, res) => {
+app.put('/task/removeUser/:idUser&:idTask', validateToken, (req, res) => {
     let idUser = req.params.idUser;
     let idTask = req.params.idTask;
     Task.findById(idTask).exec((err, taskDB) => {

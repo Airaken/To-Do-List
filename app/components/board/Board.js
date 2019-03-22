@@ -67,6 +67,7 @@ class Board extends Component{
             .then(res => res.json())
             .then(data =>{
                 if(data.ok){
+                    this.setState({name:'',description:''})
                     this.fetchsTasks()
                 }else{
                     alert(data.err.message)
@@ -91,10 +92,10 @@ class Board extends Component{
                                 <legend>Create a new Task</legend>
                                 <div className="form-row">
                                     <div className="col-12 col-sm-4 col-md-3 col-lg-3 pb-2 ">
-                                        <input name="name" onChange={this.handleInputChange} className="form-control" type="text" placeholder="Name task" />
+                                        <input name="name" onChange={this.handleInputChange} value={this.state.name} className="form-control" type="text" placeholder="Name task" />
                                     </div>
                                     <div className="col pb2 ">
-                                        <input name="description" onChange={this.handleInputChange} className="form-control" type="text" placeholder="Description task" />
+                                        <input name="description" onChange={this.handleInputChange} value={this.state.description} className="form-control" type="text" placeholder="Description task" />
                                     </div>
                                     <div className="d-flex justify-content-center pb-2 col-12 col-sm-12 col-md-3 col-lg-2">
                                         <button type="submit" className="btn btn-dark" >Create Task</button>

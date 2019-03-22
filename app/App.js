@@ -32,8 +32,8 @@ class App extends Component{
     }
     render(){
         let render=<Login callback={this.callback.bind(this)} />;
-        // switch this.state.result for render components
-        switch (this.state.result) {
+        // switch this.state.route for render components
+        switch (this.state.route) {
             case 'main':
                 render = <Main  callback={this.callback.bind(this)} />
                 break;

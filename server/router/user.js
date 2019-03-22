@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 // require for validate token, admin and task
 const { validateToken, validateAdminRole } = require('../middlewares/authentication');
 //get to list of all the users from one position and show a users limit 
-app.get('/user', (req, res) => {
+app.get('/user', validateToken, (req, res) => {
     let from = req.query.from || 0;
     from = Number(from);
     let limit = req.query.limit || 0;
@@ -28,7 +28,7 @@ app.get('/user', (req, res) => {
         });
 });
 // this method find a user by id and then return it 
-app.get('/user/:id', (req, res) => {
+app.get('/user/:id', validateToken, (req, res) => {
     let id = req.params.id;
     User.findById(id)
         .exec((err, userDB) => {
