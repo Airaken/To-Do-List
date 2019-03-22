@@ -57,7 +57,7 @@ class Task extends Component{
             })
             .catch(err => alert(err.message));
     }
-    
+    // this function change the status of task 
     swithcTask(status){
         fetch('/task/changeStatus/'+this.props.task._id+'&'+status, {
             method: 'PUT',
@@ -187,6 +187,7 @@ class Task extends Component{
                 break;
         }
     }
+    // this function change the states and keep it
     handlerOnChange(e) {
         const { name, value } = e.target;
         this.setState({

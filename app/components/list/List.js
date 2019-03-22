@@ -8,6 +8,7 @@ class List extends Component {
         }
         this.handleChange = this.handleChange.bind(this);
     }
+    // function to render each task, show the name, user name,and statys
     renderTask(task){
         return(
             <li className="list-group-item list-group-item-action col" key={task._id}>
@@ -19,9 +20,11 @@ class List extends Component {
             </li>
         );
     }
+    // this function executes the necessary code to load the data before assembling the elements
     componentDidMount() {
         this.fetchsTasks();
     }
+    // this function unmount a fetch function to avoid state changes in disassembled elements
     componentWillUnmount(){
         this.fetchsTasks(null, true);
     }

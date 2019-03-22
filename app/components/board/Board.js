@@ -13,12 +13,15 @@ class Board extends Component{
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
+    // this function executes the necessary code to load the data before assembling the elements
     componentDidMount(){
         this.fetchsTasks();
     }
+    // this function unmount a fetch function to avoid state changes in disassembled elements
     componentWillUnmount(){
         this.fetchsTasks(null, true);
     }
+    // this function returns the list of tasks that have a name similar to the value
     fetchsTasks(value, off) {
         if(!off){
             if (value) {
@@ -46,9 +49,11 @@ class Board extends Component{
             }
         }  
     }
+    // this function update hte list of task in the state
     handleChange(e){
         this.fetchsTasks(e.target.value);
     }
+    // this funciton create a new task in the data base
     handleSubmit(e){
         e.preventDefault();
         const data = new URLSearchParams("name="+this.state.name+"&description="+this.state.description+"&status=OPEN");
@@ -69,6 +74,7 @@ class Board extends Component{
             })
             .catch(err => alert(err.message));
     }
+    // this function change the states and keep it
     handleInputChange(e) {
         const { name, value } = e.target;
         this.setState({
