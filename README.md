@@ -13,7 +13,7 @@ npm install
 npm start
 ```
     
-####Note: if this file bundle.js is not present then use this command
+#### Note: if this file bundle.js is not present then use this command
 
 ```
 npm run webpack
